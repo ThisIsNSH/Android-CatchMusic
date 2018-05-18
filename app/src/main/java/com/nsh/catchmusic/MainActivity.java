@@ -55,7 +55,8 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    String wer;
+    String query;
     String AudioSavePathInDevice = null;
     MediaRecorder mediaRecorder;
     Random random;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     int check = 0;
     RequestQueue queue;
     String get_track, get_lyrics, lyrics, get_track_new, get_lyrics_new;
-    EditText user_lyrics;
+    TextView user_lyrics;
     Button find, btnSpeak;
     TextView dis_lyrics, dis_track;
     long track_id;
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.i("recorder", "run: stopeed");
                                 mediaRecorder.stop();
                             }
-                        }, 6000);
+                        }, 10000);
 
 
                     } catch (IllegalStateException e) {
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
         get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey=33a8f0aa146868d25a75c04f9810fd02";
         get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=33a8f0aa146868d25a75c04f9810fd02&track_id=";
-        user_lyrics.setOnClickListener(new View.OnClickListener() {
+        /*user_lyrics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 user_lyrics.setFocusableInTouchMode(true);
@@ -152,11 +153,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        });
+        });*/
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                convertAudio(view, nsh);
+                String hat = convertAudio(view, nsh);
+                hat = hat.replace("%HESITATION", "a");
+                hat = hat.replace(" ", "%20");
+                lyrics = "&q_lyrics=" + hat + "&page_size=1";
                 get_track_new = get_track + lyrics;
                 Log.i("track url", get_track_new);
                 final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, get_track_new, null, new Response.Listener<JSONObject>() {
@@ -188,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void stt(final File filename) {
+    public String stt(final File filename) {
 
         RecognizeOptions options = new RecognizeOptions.Builder()
 
@@ -201,7 +205,10 @@ public class MainActivity extends AppCompatActivity {
         BaseRecognizeCallback callback = new BaseRecognizeCallback() {
             @Override
             public void onTranscription(SpeechResults speechResults) {
-                System.out.println(speechResults);
+
+                query = speechResults.getResults().get(1).getAlternatives().get(1).getTranscript();
+                Log.i("onTranscription: ", speechResults.getResults().get(1).getAlternatives().get(1).getTranscript());
+                user_lyrics.setText(query);
             }
 
             @Override
@@ -210,13 +217,12 @@ public class MainActivity extends AppCompatActivity {
         };
 
 
-
         try {
 
             //AssetFileDescriptor fileDescriptor = assetManager.openFd("audio-file.flac");
             //System.out.println(nsh);
             FileInputStream stream = new FileInputStream(filename);
-        System.out.println(stream);
+            System.out.println(stream);
             service.recognizeUsingWebSocket
                     (stream, options, callback);
 
@@ -224,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
+        return query;
     }
 
     public void MediaRecorderReady() {
@@ -307,17 +313,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void convertAudio(View v, File wavFile) {
+    public String convertAudio(View v, File wavFile) {
         /**
          *  Update with a valid audio file!
          *  Supported formats: {@link AndroidAudioConverter.AudioFormat}
          */
+
         //File wavFile = new File(Environment.getExternalStorageDirectory(), "recorded_audio.wav");
         IConvertCallback callback = new IConvertCallback() {
             @Override
             public void onSuccess(File convertedFile) {
                 finalFile = convertedFile;
-                stt(finalFile);
+                wer = stt(finalFile);
                 Toast.makeText(MainActivity.this, "SUCCESS: " + convertedFile.getPath(), Toast.LENGTH_LONG).show();
             }
 
@@ -332,6 +339,8 @@ public class MainActivity extends AppCompatActivity {
                 .setFormat(AudioFormat.FLAC)
                 .setCallback(callback)
                 .convert();
+
+        return wer;
     }
 
 }

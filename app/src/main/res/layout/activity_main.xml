@@ -7,11 +7,11 @@
     android:orientation="vertical"
     tools:context="com.nsh.catchmusic.MainActivity">
 
-    <EditText
+    <TextView
         android:id="@+id/lyrics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="false" />
+         />
 
     <Button
         android:id="@+id/btnSpeak"
