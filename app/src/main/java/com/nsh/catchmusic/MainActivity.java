@@ -2,23 +2,17 @@ package com.nsh.catchmusic;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,12 +22,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.ibm.watson.developer_cloud.http.ServiceCall;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.BaseRecognizeCallback;
-import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneOptions;
+import com.google.api.gax.longrunning.OperationFuture;
+import com.google.cloud.speech.v1.LongRunningRecognizeMetadata;
+import com.google.cloud.speech.v1.LongRunningRecognizeResponse;
+import com.google.cloud.speech.v1.RecognitionAudio;
+import com.google.cloud.speech.v1.RecognitionConfig;
+import com.google.cloud.speech.v1.RecognizeResponse;
+import com.google.cloud.speech.v1.SpeechClient;
+import com.google.cloud.speech.v1.SpeechRecognitionAlternative;
+import com.google.cloud.speech.v1.SpeechRecognitionResult;
+import com.google.protobuf.ByteString;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,14 +39,17 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
 import cafe.adriel.androidaudioconverter.callback.IConvertCallback;
 import cafe.adriel.androidaudioconverter.model.AudioFormat;
-import okhttp3.internal.Util;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -71,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
     long track_id;
     File finalFile;
     JsonObjectRequest lyricsRequest;
-    SpeechToText service = new SpeechToText();
     FileInputStream input;
     AssetManager assetManager;
     File nsh;
@@ -85,17 +85,16 @@ public class MainActivity extends AppCompatActivity {
         dis_track = findViewById(R.id.track);
         user_lyrics = findViewById(R.id.lyrics);
         assetManager = this.getAssets();
-
         btnSpeak = findViewById(R.id.btnSpeak);
 
         Utils.requestPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
         Utils.requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+
         btnSpeak.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 if (checkPermission()) {
-
                     AudioSavePathInDevice =
                             Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "AudioRecording.mp3";
                     Log.i("audio save path ", AudioSavePathInDevice);
@@ -110,128 +109,74 @@ public class MainActivity extends AppCompatActivity {
                             public void run() {
                                 Log.i("recorder", "run: stopeed");
                                 mediaRecorder.stop();
+
                             }
-                        }, 10000);
-
-
+                        }, 15000);
                     } catch (IllegalStateException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-
                 } else {
                     requestPermission();
                 }
+
+
             }
         });
 
-        service.setUsernameAndPassword("b9a2e7de-0a2f-409d-9702-9c997488118d", "ZnGat8Ts5ppy");
 
         queue = Volley.newRequestQueue(this);
         get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey=33a8f0aa146868d25a75c04f9810fd02";
         get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=33a8f0aa146868d25a75c04f9810fd02&track_id=";
-        /*user_lyrics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                user_lyrics.setFocusableInTouchMode(true);
-                user_lyrics.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    }
 
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        String catched_lyrics = user_lyrics.getText().toString();
-                        catched_lyrics = catched_lyrics.replace(" ", "%20");
-                        lyrics = "&q_lyrics=" + catched_lyrics + "&page_size=1";
-                    }
-                });
-            }
-        });*/
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String hat = convertAudio(view, nsh);
-                hat = hat.replace("%HESITATION", "a");
-                hat = hat.replace(" ", "%20");
-                lyrics = "&q_lyrics=" + hat + "&page_size=1";
-                get_track_new = get_track + lyrics;
-                Log.i("track url", get_track_new);
-                final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, get_track_new, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONObject myResponse = response.getJSONObject("message").getJSONObject("body");
-                            JSONArray tsmresponse = (JSONArray) myResponse.get("track_list");
-                            String track_name;
-                            for (int i = 0; i < tsmresponse.length(); i++) {
-                                track_name = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"));
-                                track_id = (tsmresponse.getJSONObject(i).getJSONObject("track").getLong("track_id"));
-                                Log.i("track id", track_id + "");
-                                check = 1;
-                                getLyrics();
-                                dis_track.setText(track_name);
-                            }
-                        } catch (JSONException e) {
-                            return;
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                });
-                queue.add(jsonRequest);
+                getTrack();
+                stt();
             }
         });
     }
 
-    public String stt(final File filename) {
+    public void getTrack() {
 
-        RecognizeOptions options = new RecognizeOptions.Builder()
-
-                .model("en-US_NarrowbandModel")
-                .contentType("audio/flac")
-                .interimResults(false)
-                .build();
-
-
-        BaseRecognizeCallback callback = new BaseRecognizeCallback() {
+        String kk = "d d down";
+        lyrics = "&q_lyrics=" + kk.replace(" ", "%20") + "&page_size=1";
+        get_track_new = get_track + lyrics;
+        Log.i("track url", get_track_new);
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, get_track_new, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onTranscription(SpeechResults speechResults) {
-
-                query = speechResults.getResults().get(1).getAlternatives().get(1).getTranscript();
-                Log.i("onTranscription: ", speechResults.getResults().get(1).getAlternatives().get(1).getTranscript());
-                user_lyrics.setText(query);
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject myResponse = response.getJSONObject("message").getJSONObject("body");
+                    JSONArray tsmresponse = (JSONArray) myResponse.get("track_list");
+                    String track_name;
+                    for (int i = 0; i < tsmresponse.length(); i++) {
+                        track_name = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"));
+                        track_id = (tsmresponse.getJSONObject(i).getJSONObject("track").getLong("track_id"));
+                        Log.i("track id", track_id + "");
+                        check = 1;
+                        getLyrics();
+                        dis_track.setText(track_name);
+                    }
+                } catch (JSONException e) {
+                    return;
+                }
             }
-
+        }, new Response.ErrorListener() {
             @Override
-            public void onDisconnected() {
+            public void onErrorResponse(VolleyError error) {
             }
-        };
-
-
-        try {
-
-            //AssetFileDescriptor fileDescriptor = assetManager.openFd("audio-file.flac");
-            //System.out.println(nsh);
-            FileInputStream stream = new FileInputStream(filename);
-            System.out.println(stream);
-            service.recognizeUsingWebSocket
-                    (stream, options, callback);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return query;
+        });
+        queue.add(jsonRequest);
     }
+
+    public void stt() {
+
+        new SimpleAsynsTask(AudioSavePathInDevice).execute();
+    }
+
 
     public void MediaRecorderReady() {
         mediaRecorder = new MediaRecorder();
@@ -239,18 +184,6 @@ public class MainActivity extends AppCompatActivity {
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         mediaRecorder.setOutputFile(AudioSavePathInDevice);
-    }
-
-    public String CreateRandomAudioFileName(int string) {
-        StringBuilder stringBuilder = new StringBuilder(string);
-        int i = 0;
-        while (i < string) {
-            stringBuilder.append(RandomAudioFileName.
-                    charAt(random.nextInt(RandomAudioFileName.length())));
-
-            i++;
-        }
-        return stringBuilder.toString();
     }
 
     private void requestPermission() {
@@ -313,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String convertAudio(View v, File wavFile) {
+    public void convertAudio(View v, File wavFile) {
         /**
          *  Update with a valid audio file!
          *  Supported formats: {@link AndroidAudioConverter.AudioFormat}
@@ -324,7 +257,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(File convertedFile) {
                 finalFile = convertedFile;
-                wer = stt(finalFile);
                 Toast.makeText(MainActivity.this, "SUCCESS: " + convertedFile.getPath(), Toast.LENGTH_LONG).show();
             }
 
@@ -339,9 +271,6 @@ public class MainActivity extends AppCompatActivity {
                 .setFormat(AudioFormat.FLAC)
                 .setCallback(callback)
                 .convert();
-
-        return wer;
     }
-
 }
 
