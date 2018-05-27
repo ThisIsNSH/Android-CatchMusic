@@ -125,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         queue = Volley.newRequestQueue(this);
-        get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey=33a8f0aa146868d25a75c04f9810fd02";
-        get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=33a8f0aa146868d25a75c04f9810fd02&track_id=";
+        get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey=XXX";
+        get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=XXX&track_id=";
 
         find.setOnClickListener(new View.OnClickListener() {
             @Override
