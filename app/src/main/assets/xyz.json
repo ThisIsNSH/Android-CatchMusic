@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "catchmusic-204604",
+  "private_key_id": "6c4e07ba792175239469d7fd29818ba274213ff9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQClHRuu0oHqRD0V\nBHb9NHtr2tI6EPbcQasfvGIHV6RKR8PmhSwayVbhcm4fBl/JEMOKniLbAxhSsCFr\nPt5l+gX80A+faRoDAmfR0MSIIaFaALUkKSFVDpHxMSR1OjUkvEez+WK+SKq8rVZL\nAPgNDjD1Nsv8mFeoUSsDXQNbkStp22j1fmcfctO3ZMvISLFU0shJ0/JqH9Q/BPDF\nRvq2n4BWiodgfF5R6M2CPqkxNuvGXBxg5Yu9G7pw+RblHmJ0abI6+vb7VYBelUOZ\ngKEUjP6cVjBRRIfAMXreOc8U6W+ufCYrhI3nneWfr0a+g2x6f7o1NXgm5VRPhbkv\nJnm2LEvPAgMBAAECggEAM7rBZA2+txsm+fE6qEyriFh3ucp71Pjb+KboHX3HUqBW\nT2AUt9WxmxNjTeQM2W0fnku6Btza33kgFz4Mpm1lN9Yltt9ST3QO+8zI7g9/Qjfr\niIc8Uq4saiDn17RjVv2IB2pQFealW1SBLyGAFXMHQqQm154RBIJdlAGtniAGtnSO\nyfECK96bc5y7sk0xXgkpC4yKa/g4I9vR4N8SUtLXX9vF4bnePdgxS50ResTi6ElM\nLJycEo9t/Efrg0hBSrzsmbhXJNYpdQVQSaqVS2P9yeX4AxGj5Z8D+PB6kghZ5U1i\n/quFYhse/ri8HDn7oz2wJVrYF8oqJLRWB6dRQzXenQKBgQDaIa3wqyw0100n2WM7\ngOmJoDYTQvdQZ4UCrr3D0q8JHSRjiQpxrKVvuY80Y3SJpoSEkg4/r2mVeK77s1qa\nAk93lhRefqgh55G/9lwRTUYv1uCdegUw28G+BhgQ8Mb0Z0fzgMJ8xS0lYczmU76G\nsyTcGmGM38SxpNdNnh3IlGA1jQKBgQDBxy4zxtLB4gQvtkFij9Kjo3s5Lz31ax2V\n3jfuzsdsuUAqZL+YLZ1L623kVRbNXB3IRbn4T08UPDKk2frvNxURv0cTNSzp0vl/\nn3EA8EySajif7PCd3QZ7OCR959pK4axS4jwCigMrCE5m3Q/+h/6bA4TY74lK/9UB\nfq06OVdpywKBgQCSRnuKJH9kf+yxiEnPIUd6jwE0MXf/Zyv+/Icsxh+ykORSCxgB\n2rCmF1082GTR2eSLshX0BwFaxq8xArkDBgGcQ/ws0eqVseA/Rkm/IH6snf/KGoVY\nmkV11EhXM993DbtmQzYozWDU7Jym6Amf8ooJP3ejLHuOVOg8mIeIdld+EQKBgA47\n4UrwWd7gCUqv6pGg2uomQhDrRXPXkG7HyfgCvGdiHDKBAAnfn+RJwOK61Vf0YkOp\ny4VP3hEwcs/lKyeTNjr9f+0LROdQFf+n6JcXD6jZoJsuvmX6LFW0xAlzlHdXqF7W\nO248UQtCKvAnYNtjhfJBCesdfUpDDJR1h6f1OlSNAoGBANmG2jj8p78tGcC7Gk2o\nKcV/mGAH/cUrBIYhjOukl24hPLoBGJlHR6Jy7CM+9pbJ720jAaLzvnhyUGqz1bS7\nEUgRTKMn9jAIf+arFz4uzk4RKXmlP0FZT7uPS2SqWRWO7PibXzQJunqCH0SXU/cc\nAY/SVwnnbQAK7S5NAoYXfrqp\n-----END PRIVATE KEY-----\n",
+  "client_email": "starting-account-4zhxl46slioz@catchmusic-204604.iam.gserviceaccount.com",
+  "client_id": "105281726146219054073",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/starting-account-4zhxl46slioz%40catchmusic-204604.iam.gserviceaccount.com"
+}
