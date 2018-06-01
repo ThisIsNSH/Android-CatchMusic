@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">CatchMusic</string>
-    <string name="api_key">33a8f0aa146868d25a75c04f9810fd02</string>
-    <string name="google">AIzaSyBXLqbGKlCVtPWMRp_R8Bb4Dy-QkAXIHVo</string>
+    <string name="api_key"></string>
+    <string name="google"></string>
 </resources>
