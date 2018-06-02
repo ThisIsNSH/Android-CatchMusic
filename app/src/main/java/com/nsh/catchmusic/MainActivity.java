@@ -1,10 +1,7 @@
 package com.nsh.catchmusic;
 
-import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,35 +20,10 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.api.gax.core.CredentialsProvider;
-import com.google.api.gax.core.FixedCredentialsProvider;
-import com.google.api.gax.core.GoogleCredentialsProvider;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.auth.oauth2.ServiceAccountCredentials;
-import com.google.cloud.speech.v1.RecognitionAudio;
-import com.google.cloud.speech.v1.RecognitionConfig;
-import com.google.cloud.speech.v1.RecognizeResponse;
-import com.google.cloud.speech.v1.SpeechClient;
-import com.google.cloud.speech.v1.SpeechRecognitionAlternative;
-import com.google.cloud.speech.v1.SpeechRecognitionResult;
-import com.google.cloud.speech.v1.SpeechSettings;
-import com.google.protobuf.ByteString;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-
-import static com.google.auth.oauth2.ClientId.fromStream;
 
 public class MainActivity extends AppCompatActivity {
     JSONObject jsonRequest;
@@ -157,19 +129,38 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue queue = new RequestQueue(cache, network);
         queue.start();
 
-        String url = "https://speech.googleapis.com/v1/speech:recognize?key=" + getString(R.string.google);
-        try {
+        String url = "https://speech.googleapis.com/v1/speech:recognize?key=" + "";
+        try {/*
+            File file = new File(Environment.getExternalStorageDirectory() + "/hello-4.wav");
+            byte[] bytes = FileUtils.readFileToByteArray(file);
+
+            String encoded = Base64.encodeToString(bytes, 0);*/
             jsonRequest = new JSONObject(
 
-            "{\n" +
-                    "  \"config\": {\n" +
-                    "  \"sampleRateHertz\": 16000,\n" +
-                    "  \"languageCode\": \"en-US\",\n" +
-                    "  },\n" +
-                    "  \"audio\": {\n" +
-                    "    \"uri\": \"gs://catchmusic/audio-file\"" +
-                    "  }\n" +
-                    "}"
+
+         /*           "{\n" +
+                            "  \"audio\": {\n" +
+                            "    \"uri\": \"gs://catchmusic/toolur_fALrSo.mp3\"\n" +
+                            "  },\n" +
+                            "  \"config\": {\n" +
+                            "    \"encoding\": \"LINEAR16\",\n" +
+                            "    \"model\": \"video\",\n" +
+                            "    \"languageCode\": \"en-US\",\n" +
+                            "    \"sampleRateHertz\": 16000\n" +
+                            "  }\n" +
+                            "}"
+*/
+                    "{\n" +
+                            "  \"config\": {\n" +
+                            "    \"languageCode\": \"en-US\",\n" +
+                            "    \"encoding\": \"LINEAR16\",\n" +
+                            "    \"sampleRateHertz\": 16000,\n" +
+                            "    \"model\": \"video\"\n" +
+                            "  },\n" +
+                            "  \"audio\": {\n" +
+                            "    \"uri\": \"gs://catchmusic/toolur_txTkrQ.mp3\"\n" +
+                            "  }\n" +
+                            "}"
 
             );
         } catch (JSONException e) {
@@ -192,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.out.println(error);
             }
         });
         queue.add(jsonObjectRequest);
