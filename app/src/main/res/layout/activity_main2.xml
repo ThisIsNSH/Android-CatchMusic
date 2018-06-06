@@ -55,7 +55,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/two" />
+                            android:src="@color/yellow1" />
 
                         <TextView
                             android:id="@+id/name"
@@ -64,6 +64,7 @@
                             android:layout_below="@id/pic"
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
+                            android:layout_marginTop="8dp"
                             android:fontFamily="@font/psb"
                             android:text="Song"
                             android:textColor="#000"
@@ -108,21 +109,29 @@
                     android:src="#000" />
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/psb"
-                android:text="More By Singer"
-                android:textColor="#000"
-                android:textSize="20sp" />
+                android:background="@color/yellow1"
+                android:elevation="8dp"
+                android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rec_m_singer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/psb"
+                    android:text="More By Singer"
+                    android:textColor="#000"
+                    android:textSize="20sp" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rec_m_singer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"

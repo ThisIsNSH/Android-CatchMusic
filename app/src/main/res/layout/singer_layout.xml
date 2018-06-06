@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="4dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="260dp"
+    android:layout_width="190dp"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:layout_width="250dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#fff"
         app:cardCornerRadius="16dp"
@@ -21,12 +22,13 @@
             <ImageView
                 android:id="@+id/pic"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/two" />
+                android:src="#f3f3f3" />
 
             <TextView
                 android:id="@+id/name"
+                android:layout_marginTop="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pic"
@@ -35,20 +37,20 @@
                 android:fontFamily="@font/psb"
                 android:text="Song"
                 android:textColor="#000"
-                android:textSize="25dp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/album"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:fontFamily="@font/ps"
                 android:text="Album"
                 android:textColor="#000"
-                android:textSize="20dp" />
+                android:textSize="17dp" />
 
 
         </RelativeLayout>
@@ -56,10 +58,11 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/play"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="140dp"
         android:elevation="10dp"
+        android:layout_marginRight="10dp"
         android:src="#000" />
 </RelativeLayout>

@@ -9,5 +9,7 @@
         <item name="android:windowTranslucentStatus">true</item>
 
     </style>
-
+<style name="Progress" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">
+    <item name="android:colorAccent">@color/yellow1</item>
+</style>
 </resources>
