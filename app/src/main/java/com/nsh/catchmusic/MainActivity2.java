@@ -32,7 +32,8 @@ public class MainActivity2 extends AppCompatActivity {
     CircleImageView button;
     SongAdapter singerAdapter, albumAdapter;
     List<Song> singerList, albumList;
-CardView card;
+    CardView card;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,16 +57,16 @@ CardView card;
 
                 final ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
                         MainActivity2.this,
-                        Pair.create((View)name, name_t),
-                        Pair.create((View)album, album_t),
-                        Pair.create((View)singer, singer_t),
-                        Pair.create((View)button, button_t),
-                        Pair.create((View)imageView, pic_t));
-                MainActivity2.this.startActivity(new Intent(MainActivity2.this,SongActivity.class), options.toBundle());
+                        Pair.create((View) name, name_t),
+                        Pair.create((View) album, album_t),
+                        Pair.create((View) singer, singer_t),
+                        Pair.create((View) button, button_t),
+                        Pair.create((View) imageView, pic_t));
+                MainActivity2.this.startActivity(new Intent(MainActivity2.this, SongActivity.class), options.toBundle());
 
             }
         });
-}
+    }
 
     public void preparedata() {
         Song song = new Song("Name", "url", "Singer");
@@ -107,13 +108,13 @@ CardView card;
             rec_singer.setLayoutManager(llm);
             rec_singer.setAdapter(singerAdapter);
             rec_singer.setItemAnimator(new DefaultItemAnimator());
-
+            rec_singer.setFocusable(false);
             LinearLayoutManager llm1 = new LinearLayoutManager(getApplicationContext());
             llm1.setOrientation(LinearLayoutManager.HORIZONTAL);
             rec_album.setLayoutManager(llm1);
             rec_album.setAdapter(albumAdapter);
             rec_album.setItemAnimator(new DefaultItemAnimator());
-
+            rec_album.setFocusable(false);
             preparedata();
             return null;
         }

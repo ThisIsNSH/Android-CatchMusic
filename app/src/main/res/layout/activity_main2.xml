@@ -9,6 +9,8 @@
     android:orientation="vertical"
     tools:context="com.nsh.catchmusic.MainActivity2">
 
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -21,9 +23,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="48dp"
                 android:fontFamily="@font/psb"
                 android:text="Your Song"
                 android:textColor="#000"
@@ -137,6 +139,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rec_m_singer"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
