@@ -2,4 +2,11 @@
     <string name="app_name">CatchMusic</string>
     <string name="api_key"></string>
     <string name="google"></string>
+
+    <string name="t6">t6</string>
+    <string name="t1">t1</string>
+    <string name="t2">t2</string>
+    <string name="t3">t3</string>
+    <string name="t4">t4</string>
+    <string name="t5">t5</string>
 </resources>
