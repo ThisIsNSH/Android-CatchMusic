@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.nsh.catchmusic.R;
 import com.nsh.catchmusic.adapter.SongAdapter;
 import com.nsh.catchmusic.model.Song;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class MainActivity2 extends AppCompatActivity {
     SongAdapter singerAdapter, albumAdapter;
     List<Song> singerList, albumList;
     CardView card;
+    String track_name, track_pic, track_artist, track_album, track_lyrics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,15 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         initUI();
 
+        Bundle bundle = getIntent().getExtras();
+        track_name = bundle.getString("name","Not found");
+        track_pic = bundle.getString("url","Not found");
+        track_album = bundle.getString("album","Not found");
+        track_artist = bundle.getString("singer","Not found");
+        track_lyrics = bundle.getString("lyrics","Not found");
+
+        System.out.println(track_name);
+        prepareUI();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
@@ -68,6 +79,13 @@ public class MainActivity2 extends AppCompatActivity {
         });
     }
 
+    public void prepareUI(){
+        name.setText(track_name);
+        album.setText(track_album);
+        singer.setText(track_artist);
+        Picasso.get().load(track_pic).into(imageView);
+
+    }
     public void preparedata() {
         Song song = new Song("Name", "url", "Singer");
         singerList.add(song);

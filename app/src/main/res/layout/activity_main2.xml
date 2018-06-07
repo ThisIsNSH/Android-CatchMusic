@@ -71,9 +71,9 @@
                             android:layout_marginRight="8dp"
                             android:layout_marginTop="8dp"
                             android:fontFamily="@font/psb"
-                            android:text="Song"
+                            android:text=""
                             android:textColor="#000"
-                            android:textSize="25dp"
+                            android:textSize="20dp"
                             android:transitionName="@string/t2" />
 
                         <TextView
@@ -84,7 +84,7 @@
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:fontFamily="@font/ps"
-                            android:text="Album"
+                            android:text=""
                             android:textColor="#000"
                             android:textSize="20dp"
                             android:transitionName="@string/t3" />
@@ -98,7 +98,7 @@
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:fontFamily="@font/ps"
-                            android:text="Singer"
+                            android:text=""
                             android:textColor="#000"
                             android:textSize="20dp"
                             android:transitionName="@string/t4" />

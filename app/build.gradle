@@ -48,9 +48,11 @@ repositories {
 
 dependencies {
 
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     compile 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     compile 'com.github.john990:WaveView:v0.9'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.android.support:recyclerview-v7:27.1.1'

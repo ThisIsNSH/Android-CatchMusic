@@ -1,5 +1,7 @@
 package com.nsh.catchmusic.activity;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,9 +42,9 @@ public class ListenActivity extends AppCompatActivity {
         initUI();
 
         queue = Volley.newRequestQueue(this);
-        get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey=" + api_key;
-        get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=" + api_key + "&track_id=";
-        song = "d d down";
+        get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey=x";
+        get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=x";
+        song = "D D down";
 
         listen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +72,9 @@ public class ListenActivity extends AppCompatActivity {
                     for (int i = 0; i < tsmresponse.length(); i++) {
                         track_name = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"));
                         track_id = (tsmresponse.getJSONObject(i).getJSONObject("track").getLong("track_id"));
+                        track_album = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("album_name"));
+                        track_singer = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("artist_name"));
+                        track_pic = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("album_coverart_100x100"));
                         getLyrics();
                     }
                 } catch (JSONException e) {
@@ -86,6 +91,7 @@ public class ListenActivity extends AppCompatActivity {
 
     public void getLyrics() {
         {
+            get_lyrics = get_lyrics + "&track_id=";
             get_lyrics_new = get_lyrics + Long.toString(track_id);
             Log.i("lyrics url", get_lyrics_new);
             lyricsRequest = new JsonObjectRequest(Request.Method.GET, get_lyrics_new, null, new Response.Listener<JSONObject>() {
@@ -94,9 +100,15 @@ public class ListenActivity extends AppCompatActivity {
                     try {
                         JSONObject myResponse = response.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics");
                         track_lyrics = (myResponse.getString("lyrics_body"));
-                        queue.add(lyricsRequest);
-                    }
-                    catch (JSONException e) {
+                        Intent intent = new Intent(ListenActivity.this, MainActivity2.class);
+                        intent.putExtra("name", track_name);
+                        intent.putExtra("singer", track_singer);
+                        intent.putExtra("album", track_album);
+                        intent.putExtra("url", track_pic);
+                        intent.putExtra("lyrics", track_lyrics);
+                        startActivity(intent);
+
+                    } catch (JSONException e) {
                     }
                 }
             },
@@ -106,6 +118,7 @@ public class ListenActivity extends AppCompatActivity {
                         }
                     });
             queue.add(lyricsRequest);
+            return;
         }
     }
 
