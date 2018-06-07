@@ -15,14 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".activity.MainActivity" />
         <activity
-            android:name=".MainActivity2"
+            android:name=".activity.MainActivity2"
             android:label=""/>
         <activity
-            android:name=".SongActivity"
+            android:name=".activity.SongActivity"
             android:exported="true" />
-        <activity android:name=".ListenActivity">
+        <activity android:name=".activity.ListenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

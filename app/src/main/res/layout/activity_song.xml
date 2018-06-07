@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#fff"
-    tools:context="com.nsh.catchmusic.SongActivity">
+    android:orientation="vertical"
+    tools:context="com.nsh.catchmusic.activity.SongActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -18,7 +17,7 @@
         android:id="@+id/pic"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="64dp"
         android:background="@color/yellow1"
         android:scaleType="centerCrop"
@@ -26,56 +25,55 @@
         android:transitionName="@string/t1" />
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_toRightOf="@id/pic"
+        android:padding="8dp">
 
-        <RelativeLayout
-            android:layout_marginTop="64dp"
-            android:layout_width="match_parent"
-            android:layout_toRightOf="@id/pic"
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/psb"
+            android:text="Song Name"
+            android:textColor="#000"
+            android:textSize="25dp"
+            android:transitionName="@string/t2" />
 
+        <TextView
+            android:id="@+id/album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:fontFamily="@font/ps"
+            android:text="Album"
+            android:textColor="#000"
+            android:textSize="20dp"
+            android:transitionName="@string/t3" />
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/psb"
-                android:text="Song Name"
-                android:textColor="#000"
-                android:textSize="25dp"
-                android:transitionName="@string/t2" />
+        <TextView
+            android:id="@+id/singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/album"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:fontFamily="@font/ps"
+            android:text="Singer"
+            android:textColor="#000"
+            android:textSize="20dp"
+            android:transitionName="@string/t4" />
 
-            <TextView
-                android:id="@+id/album"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/name"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:fontFamily="@font/ps"
-                android:text="Album"
-                android:textColor="#000"
-                android:textSize="20dp"
-                android:transitionName="@string/t3" />
-
-            <TextView
-                android:id="@+id/singer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/album"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:fontFamily="@font/ps"
-                android:text="Singer"
-                android:textColor="#000"
-                android:textSize="20dp"
-                android:transitionName="@string/t4" />
-
-        </RelativeLayout>
+    </RelativeLayout>
 
     <ProgressBar
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -87,15 +85,27 @@
 
         android:progressTint="@color/yellow1" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <FrameLayout
         android:id="@+id/play"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/pic"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="128dp"
         android:elevation="8dp"
-        android:src="#000"
-        android:transitionName="@string/t5" />
+        android:transitionName="@string/t5">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="#000" />
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:src="@drawable/play" />
+    </FrameLayout>
+
 
 </RelativeLayout>

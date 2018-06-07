@@ -1,9 +1,11 @@
-package com.nsh.catchmusic;
+package com.nsh.catchmusic.activity;
 
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
+
+import com.nsh.catchmusic.R;
 
 public class SongActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.nsh.catchmusic;
+package com.nsh.catchmusic.activity;
 
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -20,6 +20,7 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.nsh.catchmusic.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

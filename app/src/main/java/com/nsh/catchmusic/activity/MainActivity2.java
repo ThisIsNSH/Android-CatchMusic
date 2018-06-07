@@ -1,4 +1,4 @@
-package com.nsh.catchmusic;
+package com.nsh.catchmusic.activity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -13,23 +13,23 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nsh.catchmusic.R;
 import com.nsh.catchmusic.adapter.SongAdapter;
 import com.nsh.catchmusic.model.Song;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class MainActivity2 extends AppCompatActivity {
 
     RecyclerView rec_singer, rec_album;
     TextView name, album, singer;
     ImageView imageView;
-    CircleImageView button;
+    FrameLayout button;
     SongAdapter singerAdapter, albumAdapter;
     List<Song> singerList, albumList;
     CardView card;
