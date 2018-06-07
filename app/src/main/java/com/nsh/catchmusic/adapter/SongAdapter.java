@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.nsh.catchmusic.R;
 import com.nsh.catchmusic.model.Song;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -53,6 +54,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
         Song song = songList.get(position);
         holder.name.setText(song.getName());
         holder.album.setText(song.getAlbum());
+        Picasso.get().load(song.getUrl()).into(holder.imageView);
+
 
     }
 

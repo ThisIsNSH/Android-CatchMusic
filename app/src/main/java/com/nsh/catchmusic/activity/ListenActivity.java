@@ -28,7 +28,7 @@ public class ListenActivity extends AppCompatActivity {
     CircleImageView listen;
     RequestQueue queue;
     String api_key, get_track, get_lyrics, get_track_new, get_lyrics_new, lyrics;
-    long track_id;
+    long track_id,artist_id,album_id;
     String song, track_name, track_lyrics, track_album, track_singer, track_pic;
     JsonObjectRequest lyricsRequest;
 
@@ -72,6 +72,8 @@ public class ListenActivity extends AppCompatActivity {
                     for (int i = 0; i < tsmresponse.length(); i++) {
                         track_name = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"));
                         track_id = (tsmresponse.getJSONObject(i).getJSONObject("track").getLong("track_id"));
+                        artist_id = (tsmresponse.getJSONObject(i).getJSONObject("track").getLong("artist_id"));
+                        album_id = (tsmresponse.getJSONObject(i).getJSONObject("track").getLong("album_id"));
                         track_album = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("album_name"));
                         track_singer = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("artist_name"));
                         track_pic = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("album_coverart_100x100"));
@@ -106,6 +108,8 @@ public class ListenActivity extends AppCompatActivity {
                         intent.putExtra("album", track_album);
                         intent.putExtra("url", track_pic);
                         intent.putExtra("lyrics", track_lyrics);
+                        intent.putExtra("artist_id",artist_id);
+                        intent.putExtra("album_id",album_id);
                         startActivity(intent);
 
                     } catch (JSONException e) {

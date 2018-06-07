@@ -17,10 +17,21 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.api.client.json.Json;
 import com.nsh.catchmusic.R;
 import com.nsh.catchmusic.adapter.SongAdapter;
 import com.nsh.catchmusic.model.Song;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +45,8 @@ public class MainActivity2 extends AppCompatActivity {
     SongAdapter singerAdapter, albumAdapter;
     List<Song> singerList, albumList;
     CardView card;
-    String track_name, track_pic, track_artist, track_album, track_lyrics;
+    String track_name, track_pic, track_artist, track_album, track_lyrics, get_album, get_artist;
+    Long album_id, artist_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,19 +54,6 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         initUI();
 
-        Bundle bundle = getIntent().getExtras();
-        track_name = bundle.getString("name","Not found");
-        track_pic = bundle.getString("url","Not found");
-        track_album = bundle.getString("album","Not found");
-        track_artist = bundle.getString("singer","Not found");
-        track_lyrics = bundle.getString("lyrics","Not found");
-
-        System.out.println(track_name);
-        prepareUI();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
-        new LoadAsyncTask().execute();
         final String pic_t = this.getString(R.string.t1);
         final String name_t = this.getString(R.string.t2);
         final String album_t = this.getString(R.string.t3);
@@ -79,28 +78,49 @@ public class MainActivity2 extends AppCompatActivity {
         });
     }
 
-    public void prepareUI(){
+    public void prepareUI() {
+        Bundle bundle = getIntent().getExtras();
+        track_name = bundle.getString("name", "Not found");
+        track_pic = bundle.getString("url", "Not found");
+        track_album = bundle.getString("album", "Not found");
+        track_artist = bundle.getString("singer", "Not found");
+        track_lyrics = bundle.getString("lyrics", "Not found");
+        album_id = bundle.getLong("album_id", 0);
+        artist_id = bundle.getLong("artist_id", 0);
         name.setText(track_name);
         album.setText(track_album);
         singer.setText(track_artist);
         Picasso.get().load(track_pic).into(imageView);
+        get_album = "http://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=" + album_id + "&page=1&page_size=5&apikey=x";
+        get_artist = "http://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id + "&s_release_date=desc&g_album_name=1&apikey=x&page=1&page_size=5";
 
-    }
-    public void preparedata() {
-        Song song = new Song("Name", "url", "Singer");
-        singerList.add(song);
-        singerList.add(song);
-        singerList.add(song);
-        singerList.add(song);
-        albumList.add(song);
-        albumList.add(song);
-        albumList.add(song);
-        albumList.add(song);
-        albumAdapter.notifyDataSetChanged();
-        singerAdapter.notifyDataSetChanged();
+        singerList = new ArrayList<>();
+        albumList = new ArrayList<>();
+
+        singerAdapter = new SongAdapter(singerList);
+        albumAdapter = new SongAdapter(albumList);
+
+        LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
+        llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rec_singer.setLayoutManager(llm);
+        rec_singer.setAdapter(singerAdapter);
+        rec_singer.setItemAnimator(new DefaultItemAnimator());
+        rec_singer.setFocusable(false);
+
+        LinearLayoutManager llm1 = new LinearLayoutManager(getApplicationContext());
+        llm1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rec_album.setLayoutManager(llm1);
+        rec_album.setAdapter(albumAdapter);
+        rec_album.setItemAnimator(new DefaultItemAnimator());
+        rec_album.setFocusable(false);
+System.out.println(getArtistSong(get_artist));
+        System.out.println((get_artist));
     }
 
     public void initUI() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
         rec_album = findViewById(R.id.rec_m_album);
         rec_singer = findViewById(R.id.rec_m_singer);
         name = findViewById(R.id.name);
@@ -109,37 +129,67 @@ public class MainActivity2 extends AppCompatActivity {
         imageView = findViewById(R.id.pic);
         card = findViewById(R.id.card);
         button = findViewById(R.id.play);
+        prepareUI();
+
     }
 
-    public class LoadAsyncTask extends AsyncTask<Void, Void, Void> {
+    public List<Song> getArtistSong(String url) {
+        final List<Song> nsh = new ArrayList<>();
+        System.out.println("1helllllllllllllo");
 
-        @Override
-        protected Void doInBackground(Void... voids) {
+        RequestQueue queue = Volley.newRequestQueue(this);
 
-            singerList = new ArrayList<>();
-            albumList = new ArrayList<>();
-            singerAdapter = new SongAdapter(singerList);
-            albumAdapter = new SongAdapter(albumList);
+        StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, url, new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                JSONObject response1 = new JSONObject(response);
+                    JSONObject myResponse = response1.getJSONObject("message").getJSONObject("body");
+                    JSONArray tsmresponse = (JSONArray) myResponse.get("album_list");
+                    for (int i = 0; i < tsmresponse.length(); i++) {
+                        Song song = new Song(tsmresponse.getJSONObject(i).getString("album_name"), tsmresponse.getJSONObject(i).getString("album_coverart_100x100"), tsmresponse.getJSONObject(i).getString("album_release_type"));
+                        nsh.add(song);
+                        singerAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    return;
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("3helllllllllllllo");
 
-            LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
-            llm.setOrientation(LinearLayoutManager.HORIZONTAL);
-            rec_singer.setLayoutManager(llm);
-            rec_singer.setAdapter(singerAdapter);
-            rec_singer.setItemAnimator(new DefaultItemAnimator());
-            rec_singer.setFocusable(false);
-            LinearLayoutManager llm1 = new LinearLayoutManager(getApplicationContext());
-            llm1.setOrientation(LinearLayoutManager.HORIZONTAL);
-            rec_album.setLayoutManager(llm1);
-            rec_album.setAdapter(albumAdapter);
-            rec_album.setItemAnimator(new DefaultItemAnimator());
-            rec_album.setFocusable(false);
-            preparedata();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
+            }
+        });
+        queue.add(jsonObjectRequest);
+    return nsh;
     }
+
+    public void getAlbumSong(String url) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject myResponse = response.getJSONObject("message").getJSONObject("body");
+                    JSONArray tsmresponse = (JSONArray) myResponse.get("track_list");
+                    for (int i = 0; i < tsmresponse.length(); i++) {
+                        Song song = new Song(tsmresponse.getJSONObject(i).getString("track_name"), tsmresponse.getJSONObject(i).getString("album_coverart_100x100"), tsmresponse.getJSONObject(i).getString("artist_name"));
+                        albumList.add(song);
+                        albumAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    return;
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(jsonObjectRequest);
+    }
+
 }
