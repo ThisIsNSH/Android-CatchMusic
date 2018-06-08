@@ -42,8 +42,8 @@ public class ListenActivity extends AppCompatActivity {
         initUI();
 
         queue = Volley.newRequestQueue(this);
-        get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey=x";
-        get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=x";
+        get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey="+getString(R.string.api_key);
+        get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey="+getString(R.string.api_key);
         song = "D D down";
 
         listen.setOnClickListener(new View.OnClickListener() {

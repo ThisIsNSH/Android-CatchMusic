@@ -89,7 +89,7 @@ public class MainActivity2 extends AppCompatActivity {
                     Animation animate = AnimationUtils.loadAnimation(MainActivity2.this, R.anim.translate_left);
                     holder.startAnimation(animate);
                     ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationY", 0.0f, 10f);
-                    animation.setDuration(100);
+                    animation.setDuration(300);
                     animation.setInterpolator(new AccelerateDecelerateInterpolator());
                     animation.start();
                     check = 1;
@@ -101,7 +101,7 @@ public class MainActivity2 extends AppCompatActivity {
                     Animation animate = AnimationUtils.loadAnimation(MainActivity2.this, R.anim.translate_right);
                     holder.startAnimation(animate);
                     ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationY", 10f, 0f);
-                    animation.setDuration(100);
+                    animation.setDuration(300);
                     animation.setInterpolator(new AccelerateDecelerateInterpolator());
                     animation.start();
                     check = 0;
@@ -124,8 +124,9 @@ public class MainActivity2 extends AppCompatActivity {
         album.setText(track_album);
         singer.setText(track_artist);
         Picasso.get().load(track_pic).into(imageView);
-        get_album = "http://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=" + album_id + "&page=1&page_size=5&apikey=x";
-        get_artist = "http://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id + "&s_release_date=desc&g_album_name=1&apikey=x&page=1&page_size=5";
+
+        get_album = "http://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=" + album_id + "&page=1&page_size=5&apikey="+getString(R.string.api_key);
+        get_artist = "http://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id + "&s_release_date=desc&g_album_name=1&apikey="+getString(R.string.api_key)+"&page=1&page_size=5";
 
         singerList = new ArrayList<>();
         albumList = new ArrayList<>();
@@ -146,8 +147,9 @@ public class MainActivity2 extends AppCompatActivity {
         rec_album.setAdapter(albumAdapter);
         rec_album.setItemAnimator(new DefaultItemAnimator());
         rec_album.setFocusable(false);
-        System.out.println(getArtistSong(get_artist));
-        System.out.println((get_artist));
+
+        getArtistSong(get_artist);
+        getAlbumSong(get_album);
     }
 
     public void initUI() {
@@ -167,12 +169,8 @@ public class MainActivity2 extends AppCompatActivity {
 
     }
 
-    public List<Song> getArtistSong(String url) {
-        final List<Song> nsh = new ArrayList<>();
-        System.out.println("1helllllllllllllo");
-
+    public void getArtistSong(String url) {
         RequestQueue queue = Volley.newRequestQueue(this);
-
         StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, url, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -181,8 +179,8 @@ public class MainActivity2 extends AppCompatActivity {
                     JSONObject myResponse = response1.getJSONObject("message").getJSONObject("body");
                     JSONArray tsmresponse = (JSONArray) myResponse.get("album_list");
                     for (int i = 0; i < tsmresponse.length(); i++) {
-                        Song song = new Song(tsmresponse.getJSONObject(i).getString("album_name"), tsmresponse.getJSONObject(i).getString("album_coverart_100x100"), tsmresponse.getJSONObject(i).getString("album_release_type"));
-                        nsh.add(song);
+                        Song song = new Song(tsmresponse.getJSONObject(i).getJSONObject("album").getString("album_name"), tsmresponse.getJSONObject(i).getJSONObject("album").getString("album_coverart_100x100"), tsmresponse.getJSONObject(i).getJSONObject("album").getString("album_release_type"));
+                        singerList.add(song);
                         singerAdapter.notifyDataSetChanged();
                     }
                 } catch (JSONException e) {
@@ -192,12 +190,9 @@ public class MainActivity2 extends AppCompatActivity {
         }, new com.android.volley.Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("3helllllllllllllo");
-
             }
         });
         queue.add(jsonObjectRequest);
-        return nsh;
     }
 
     public void getAlbumSong(String url) {
@@ -209,7 +204,8 @@ public class MainActivity2 extends AppCompatActivity {
                     JSONObject myResponse = response.getJSONObject("message").getJSONObject("body");
                     JSONArray tsmresponse = (JSONArray) myResponse.get("track_list");
                     for (int i = 0; i < tsmresponse.length(); i++) {
-                        Song song = new Song(tsmresponse.getJSONObject(i).getString("track_name"), tsmresponse.getJSONObject(i).getString("album_coverart_100x100"), tsmresponse.getJSONObject(i).getString("artist_name"));
+                        System.out.println(tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"));
+                        Song song = new Song(tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"), tsmresponse.getJSONObject(i).getJSONObject("track").getString("album_coverart_100x100"), tsmresponse.getJSONObject(i).getJSONObject("track").getString("artist_name"));
                         albumList.add(song);
                         albumAdapter.notifyDataSetChanged();
                     }
