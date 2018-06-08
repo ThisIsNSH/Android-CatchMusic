@@ -1,8 +1,8 @@
 package com.nsh.catchmusic.activity;
 
+import android.animation.ObjectAnimator;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -23,7 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.api.client.json.Json;
+import com.nsh.catchmusic.OnSwipeTouchListener;
 import com.nsh.catchmusic.R;
 import com.nsh.catchmusic.adapter.SongAdapter;
 import com.nsh.catchmusic.model.Song;
@@ -47,6 +51,8 @@ public class MainActivity2 extends AppCompatActivity {
     CardView card;
     String track_name, track_pic, track_artist, track_album, track_lyrics, get_album, get_artist;
     Long album_id, artist_id;
+    RelativeLayout holder;
+    int check = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,33 @@ public class MainActivity2 extends AppCompatActivity {
                 MainActivity2.this.startActivity(new Intent(MainActivity2.this, SongActivity.class), options.toBundle());
 
             }
+        });
+
+        card.setOnTouchListener(new OnSwipeTouchListener(MainActivity2.this) {
+            public void onSwipeLeft() {
+                if (check == 0) {
+                    Animation animate = AnimationUtils.loadAnimation(MainActivity2.this, R.anim.translate_left);
+                    holder.startAnimation(animate);
+                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationY", 0.0f, 10f);
+                    animation.setDuration(100);
+                    animation.setInterpolator(new AccelerateDecelerateInterpolator());
+                    animation.start();
+                    check = 1;
+                }
+            }
+
+            public void onSwipeRight() {
+                if (check == 1) {
+                    Animation animate = AnimationUtils.loadAnimation(MainActivity2.this, R.anim.translate_right);
+                    holder.startAnimation(animate);
+                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationY", 10f, 0f);
+                    animation.setDuration(100);
+                    animation.setInterpolator(new AccelerateDecelerateInterpolator());
+                    animation.start();
+                    check = 0;
+                }
+            }
+
         });
     }
 
@@ -113,7 +146,7 @@ public class MainActivity2 extends AppCompatActivity {
         rec_album.setAdapter(albumAdapter);
         rec_album.setItemAnimator(new DefaultItemAnimator());
         rec_album.setFocusable(false);
-System.out.println(getArtistSong(get_artist));
+        System.out.println(getArtistSong(get_artist));
         System.out.println((get_artist));
     }
 
@@ -121,6 +154,7 @@ System.out.println(getArtistSong(get_artist));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        holder = findViewById(R.id.holder);
         rec_album = findViewById(R.id.rec_m_album);
         rec_singer = findViewById(R.id.rec_m_singer);
         name = findViewById(R.id.name);
@@ -143,7 +177,7 @@ System.out.println(getArtistSong(get_artist));
             @Override
             public void onResponse(String response) {
                 try {
-                JSONObject response1 = new JSONObject(response);
+                    JSONObject response1 = new JSONObject(response);
                     JSONObject myResponse = response1.getJSONObject("message").getJSONObject("body");
                     JSONArray tsmresponse = (JSONArray) myResponse.get("album_list");
                     for (int i = 0; i < tsmresponse.length(); i++) {
@@ -163,7 +197,7 @@ System.out.println(getArtistSong(get_artist));
             }
         });
         queue.add(jsonObjectRequest);
-    return nsh;
+        return nsh;
     }
 
     public void getAlbumSong(String url) {
