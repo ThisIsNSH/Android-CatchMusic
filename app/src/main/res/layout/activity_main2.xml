@@ -70,7 +70,7 @@
                             android:layout_below="@id/pic"
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="16dp"
                             android:fontFamily="@font/psb"
                             android:text=""
                             android:textColor="#000"

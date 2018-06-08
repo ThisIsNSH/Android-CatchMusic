@@ -131,8 +131,8 @@ public class MainActivity2 extends AppCompatActivity {
         singerList = new ArrayList<>();
         albumList = new ArrayList<>();
 
-        singerAdapter = new SongAdapter(singerList);
-        albumAdapter = new SongAdapter(albumList);
+        singerAdapter = new SongAdapter(singerList,MainActivity2.this);
+        albumAdapter = new SongAdapter(albumList,MainActivity2.this);
 
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
