@@ -3,6 +3,7 @@ package com.nsh.catchmusic.activity;
 import android.animation.ObjectAnimator;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -18,7 +20,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -37,11 +41,15 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity2 extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     RecyclerView rec_singer, rec_album;
     TextView name, album, singer;
@@ -54,6 +62,7 @@ public class MainActivity2 extends AppCompatActivity {
     String track_name, track_pic, track_artist, track_album, track_lyrics, get_album, get_artist;
     Long album_id, artist_id;
     RelativeLayout holder;
+    LinearLayout holder1;
     int check = 0;
 
     @Override
@@ -62,35 +71,13 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         initUI();
 
-        final String pic_t = this.getString(R.string.t1);
-        final String name_t = this.getString(R.string.t2);
-        final String album_t = this.getString(R.string.t3);
-        final String singer_t = this.getString(R.string.t4);
-        final String button_t = this.getString(R.string.t5);
-        final String card_t = this.getString(R.string.t6);
+        card.setOnTouchListener(new OnSwipeTouchListener(HomeActivity.this) {
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
-                        MainActivity2.this,
-                        Pair.create((View) name, name_t),
-                        Pair.create((View) album, album_t),
-                        Pair.create((View) singer, singer_t),
-                        Pair.create((View) button, button_t),
-                        Pair.create((View) imageView, pic_t));
-                MainActivity2.this.startActivity(new Intent(MainActivity2.this, SongActivity.class), options.toBundle());
-
-            }
-        });
-
-        card.setOnTouchListener(new OnSwipeTouchListener(MainActivity2.this) {
             public void onSwipeLeft() {
                 if (check == 0) {
-                    Animation animate = AnimationUtils.loadAnimation(MainActivity2.this, R.anim.translate_left);
+                    Animation animate = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.translate_left);
                     holder.startAnimation(animate);
-                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationX", 0.0f, 10f);
+                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationY", 0.0f, 10f);
                     animation.setDuration(300);
                     animation.setInterpolator(new AccelerateDecelerateInterpolator());
                     animation.start();
@@ -100,9 +87,9 @@ public class MainActivity2 extends AppCompatActivity {
 
             public void onSwipeRight() {
                 if (check == 1) {
-                    Animation animate = AnimationUtils.loadAnimation(MainActivity2.this, R.anim.translate_right);
+                    Animation animate = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.translate_right);
                     holder.startAnimation(animate);
-                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationX", 10f, 0f);
+                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationY", 10f, 0f);
                     animation.setDuration(300);
                     animation.setInterpolator(new AccelerateDecelerateInterpolator());
                     animation.start();
@@ -110,8 +97,11 @@ public class MainActivity2 extends AppCompatActivity {
                 }
             }
 
+
         });
+
     }
+
 
     public void prepareUI() {
         Bundle bundle = getIntent().getExtras();
@@ -125,19 +115,16 @@ public class MainActivity2 extends AppCompatActivity {
         name.setText(track_name);
         album.setText(track_album);
         singer.setText(track_artist);
-        Picasso.get().load(track_pic).into(imageView);
+        new AAsyncTask().execute();
 
         get_album = "http://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=" + album_id + "&page=1&page_size=5&apikey=" + getString(R.string.api_key);
         get_artist = "http://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id + "&s_release_date=desc&g_album_name=1&apikey=" + getString(R.string.api_key) + "&page=1&page_size=5";
 
-        System.out.println(get_artist);
-        System.out.println(get_album);
-
         singerList = new ArrayList<>();
         albumList = new ArrayList<>();
 
-        singerAdapter = new Song1Adapter(singerList, MainActivity2.this);
-        albumAdapter = new SongAdapter(albumList, MainActivity2.this);
+        singerAdapter = new Song1Adapter(singerList, HomeActivity.this);
+        albumAdapter = new SongAdapter(albumList, HomeActivity.this);
 
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -161,6 +148,7 @@ public class MainActivity2 extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        holder1 = findViewById(R.id.holder1);
         holder = findViewById(R.id.holder);
         rec_album = findViewById(R.id.rec_m_album);
         rec_singer = findViewById(R.id.rec_m_singer);
@@ -209,7 +197,6 @@ public class MainActivity2 extends AppCompatActivity {
                     JSONObject myResponse = response.getJSONObject("message").getJSONObject("body");
                     JSONArray tsmresponse = (JSONArray) myResponse.get("track_list");
                     for (int i = 0; i < tsmresponse.length(); i++) {
-                        System.out.println(tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"));
                         Song song = new Song(tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"), tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_share_url"), tsmresponse.getJSONObject(i).getJSONObject("track").getString("artist_name"));
                         albumList.add(song);
                         albumAdapter.notifyDataSetChanged();
@@ -225,6 +212,27 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
         queue.add(jsonObjectRequest);
+    }
+
+    public class AAsyncTask extends AsyncTask<Void, Void, Element> {
+
+        @Override
+        protected Element doInBackground(Void... voids) {
+            Element content = new Element("hello");
+            try {
+                Document document = Jsoup.connect(track_pic).get();
+                content = document.select(".banner-album-image-desktop").first();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(Element content) {
+            Picasso.get().load(content.select("img").first().absUrl("src")).into(imageView);
+            super.onPostExecute(content);
+        }
     }
 
 }

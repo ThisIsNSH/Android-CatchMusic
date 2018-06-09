@@ -102,7 +102,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
 
         @Override
         protected void onPostExecute(Element content) {
-            System.out.println(content.select("img").first().absUrl("src"));
             Picasso.get().load(content.select("img").first().absUrl("src")).into(holder.imageView);
             super.onPostExecute(content);
         }

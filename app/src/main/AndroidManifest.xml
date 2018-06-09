@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity" />
         <activity
-            android:name=".activity.MainActivity2"
+            android:name=".activity.HomeActivity"
             android:label=""/>
         <activity
             android:name=".activity.SongActivity"

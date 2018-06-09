@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:fitsSystemWindows="true"
-    tools:context="com.nsh.catchmusic.activity.MainActivity2">
+    tools:context="com.nsh.catchmusic.activity.HomeActivity">
     <LinearLayout
         android:id="@+id/holder"
         android:layout_width="wrap_content"

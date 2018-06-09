@@ -7,12 +7,14 @@
     android:background="#fff"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.nsh.catchmusic.activity.MainActivity2">
+    tools:context="com.nsh.catchmusic.activity.HomeActivity">
 
 
-    <ScrollView
+    <com.nsh.catchmusic.CustomScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,8 +33,8 @@
                 android:textSize="20sp" />
 
             <RelativeLayout
-                android:layout_width="match_parent"
                 android:id="@+id/holder"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <android.support.v7.widget.CardView
@@ -107,35 +109,17 @@
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
-                <FrameLayout
-                    android:id="@+id/play"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="32dp"
-                    android:layout_marginTop="170dp"
 
-                    android:elevation="10dp"
-                    android:transitionName="@string/t5">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="#000" />
-
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/play" />
-                </FrameLayout>
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/holder1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@color/yellow1"
+                android:clickable="true"
                 android:elevation="8dp"
                 android:orientation="vertical">
 
@@ -172,5 +156,5 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-    </ScrollView>
+    </com.nsh.catchmusic.CustomScrollView>
 </LinearLayout>

@@ -35,14 +35,18 @@
                 android:layout_below="@id/pic"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:minLines="2"
+                android:maxLines="2"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/psb"
                 android:text="Song"
                 android:textColor="#000"
-                android:textSize="20dp" />
+                android:textSize="17dp" />
 
             <TextView
                 android:id="@+id/album"
+                android:minLines="2"
+                android:maxLines="2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"

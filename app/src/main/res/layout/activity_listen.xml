@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="-16dp"
             android:fontFamily="@font/psb"
-            android:text="Listen."
+            android:text="Catch."
             android:textColor="#000"
             android:textSize="55dp" />
 

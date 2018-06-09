@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonRequest, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println(response);
                 try {
                     String name = response.getString("name");
                     final String url1 = "https://speech.googleapis.com/v1/operations/" + name + "?key=" + getString(R.string.google);
@@ -184,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println(error);
             }
         });
         queue.add(jsonObjectRequest);
@@ -200,8 +198,6 @@ public class MainActivity extends AppCompatActivity {
         final JsonObjectRequest jsonObjectRequest1 = new JsonObjectRequest(Request.Method.GET, url1, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(final JSONObject response) {
-
-                System.out.println(response);
 
 
             }
