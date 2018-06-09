@@ -18,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,7 +52,7 @@ public class MainActivity2 extends AppCompatActivity {
     CardView card;
     String track_name, track_pic, track_artist, track_album, track_lyrics, get_album, get_artist;
     Long album_id, artist_id;
-    RelativeLayout holder;
+    LinearLayout holder;
     int check = 0;
 
     @Override
@@ -88,7 +89,7 @@ public class MainActivity2 extends AppCompatActivity {
                 if (check == 0) {
                     Animation animate = AnimationUtils.loadAnimation(MainActivity2.this, R.anim.translate_left);
                     holder.startAnimation(animate);
-                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationY", 0.0f, 10f);
+                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationX", 0.0f, 10f);
                     animation.setDuration(300);
                     animation.setInterpolator(new AccelerateDecelerateInterpolator());
                     animation.start();
@@ -100,7 +101,7 @@ public class MainActivity2 extends AppCompatActivity {
                 if (check == 1) {
                     Animation animate = AnimationUtils.loadAnimation(MainActivity2.this, R.anim.translate_right);
                     holder.startAnimation(animate);
-                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationY", 10f, 0f);
+                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationX", 10f, 0f);
                     animation.setDuration(300);
                     animation.setInterpolator(new AccelerateDecelerateInterpolator());
                     animation.start();
@@ -135,14 +136,14 @@ public class MainActivity2 extends AppCompatActivity {
         albumAdapter = new SongAdapter(albumList,MainActivity2.this);
 
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
-        llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
         rec_singer.setLayoutManager(llm);
         rec_singer.setAdapter(singerAdapter);
         rec_singer.setItemAnimator(new DefaultItemAnimator());
         rec_singer.setFocusable(false);
 
         LinearLayoutManager llm1 = new LinearLayoutManager(getApplicationContext());
-        llm1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        llm1.setOrientation(LinearLayoutManager.VERTICAL);
         rec_album.setLayoutManager(llm1);
         rec_album.setAdapter(albumAdapter);
         rec_album.setItemAnimator(new DefaultItemAnimator());

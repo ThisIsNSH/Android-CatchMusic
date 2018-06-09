@@ -18,12 +18,11 @@
         <activity android:name=".activity.MainActivity" />
         <activity
             android:name=".activity.MainActivity2"
-            android:exported="true"
             android:label=""/>
         <activity
             android:name=".activity.SongActivity"
             android:exported="true" />
-        <activity android:name=".activity.ListenActivity">
+        <activity android:name=".activity.ListenActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

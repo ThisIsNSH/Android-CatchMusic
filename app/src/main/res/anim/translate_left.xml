@@ -6,11 +6,11 @@
     android:shareInterpolator="true">
 
     <translate xmlns:android="http://schemas.android.com/apk/res/android"
-        android:fromXDelta="0%"
         android:fromYDelta="0%"
+        android:fromXDelta="0%"
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"
-        android:toXDelta="-5%"
-        android:toYDelta="10%" />
+        android:toYDelta="-5%"
+        android:toXDelta="10%" />
 
     <scale
         android:fromXScale="1"

@@ -66,20 +66,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
         holder.album.setText(song.getAlbum());
         Picasso.get().load(song.getUrl()).into(holder.imageView);
 
-        final String pic_t = mContext.getString(R.string.t1);
-        final String name_t = mContext.getString(R.string.t2);
-        final String button_t = mContext.getString(R.string.t5);
-
-        final ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
-                mContext,
-                Pair.create((View) holder.name, name_t),
-                Pair.create((View) holder.button, button_t),
-                Pair.create((View) holder.imageView, pic_t));
-
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, SongActivity.class), options.toBundle());
+
             }
         });
 

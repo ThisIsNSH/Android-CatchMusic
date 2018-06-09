@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:fitsSystemWindows="true"
+    tools:context="com.nsh.catchmusic.activity.MainActivity2">
+    <LinearLayout
+        android:id="@+id/holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/psb"
+            android:text="Your Song"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:layout_width="250dp"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="32dp"
+                android:transitionName="@string/t6"
+                app:cardBackgroundColor="#fff"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/pic"
+                        android:layout_width="200dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/yellow1"
+                        android:scaleType="centerCrop"
+                        android:src="@color/yellow1"
+                        android:transitionName="@string/t1" />
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/psb"
+                        android:text=""
+                        android:textColor="#000"
+                        android:textSize="17dp"
+                        android:transitionName="@string/t2" />
+
+                    <TextView
+                        android:id="@+id/album"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:fontFamily="@font/ps"
+                        android:text=""
+                        android:textColor="#000"
+                        android:textSize="17dp"
+                        android:transitionName="@string/t3" />
+
+                    <TextView
+                        android:id="@+id/singer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:fontFamily="@font/ps"
+                        android:text=""
+                        android:textColor="#000"
+                        android:textSize="17dp"
+                        android:transitionName="@string/t4" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <FrameLayout
+                android:id="@+id/play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="90dp"
+                android:elevation="10dp"
+                android:transitionName="@string/t5">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="#000" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/play" />
+            </FrameLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    <ImageView
+        android:layout_toRightOf="@id/holder"
+        android:layout_width="32dp"
+        android:elevation="8dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/white_gradient"/>
+    <HorizontalScrollView
+        android:layout_toRightOf="@id/holder"
+        android:layout_width="match_parent"
+        android:scrollbars="none"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="32dp"
+                android:background="@color/yellow1"
+                android:elevation="8dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/yellow1"
+                    android:orientation="vertical"
+
+                    android:paddingTop="16dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="16dp"
+                        android:paddingBottom="8dp"
+                        android:fontFamily="@font/psb"
+                        android:text="More By Singer"
+                        android:textColor="#000"
+                        android:textSize="20sp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rec_m_singer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </ScrollView>
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical"
+                    android:paddingTop="16dp">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginTop="16dp"
+                        android:paddingBottom="8dp"
+                        android:fontFamily="@font/psb"
+                        android:text="More In Album"
+                        android:textColor="#000"
+                        android:textSize="20sp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rec_m_album"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:visibility="visible" />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </HorizontalScrollView>
+</RelativeLayout>

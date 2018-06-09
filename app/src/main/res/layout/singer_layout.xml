@@ -63,6 +63,7 @@
         android:transitionName="@string/t5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="140dp"
