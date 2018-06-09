@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.john.waveview.WaveView;
 import com.nsh.catchmusic.R;
 
 import org.json.JSONArray;
@@ -26,6 +27,7 @@ public class ListenActivity extends AppCompatActivity {
 
     CircleImageView listen;
     RequestQueue queue;
+    WaveView wave,wave1,wave2;
     String api_key, get_track, get_lyrics, get_track_new, get_lyrics_new, lyrics;
     long track_id,artist_id,album_id;
     String song, track_name, track_lyrics, track_album, track_singer, track_pic;
@@ -48,13 +50,18 @@ public class ListenActivity extends AppCompatActivity {
         listen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 getTrack(song);
             }
         });
 
+
     }
 
     public void initUI() {
+        wave = findViewById(R.id.wave);
+        wave1 = findViewById(R.id.wave1);
+        wave2 = findViewById(R.id.wave2);
         listen = findViewById(R.id.listen);
     }
 
@@ -76,7 +83,15 @@ public class ListenActivity extends AppCompatActivity {
                         track_album = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("album_name"));
                         track_singer = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("artist_name"));
                         track_pic = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_share_url"));
-                        getLyrics();
+                        Intent intent = new Intent(ListenActivity.this, HomeActivity.class);
+                        intent.putExtra("name", track_name);
+                        intent.putExtra("singer", track_singer);
+                        intent.putExtra("album", track_album);
+                        intent.putExtra("url", track_pic);
+                        intent.putExtra("lyrics", "null");
+                        intent.putExtra("artist_id",artist_id);
+                        intent.putExtra("album_id",album_id);
+                        startActivity(intent);
                     }
                 } catch (JSONException e) {
                     return;
@@ -101,15 +116,7 @@ public class ListenActivity extends AppCompatActivity {
                     try {
                         JSONObject myResponse = response.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics");
                         track_lyrics = (myResponse.getString("lyrics_body"));
-                        Intent intent = new Intent(ListenActivity.this, HomeActivity.class);
-                        intent.putExtra("name", track_name);
-                        intent.putExtra("singer", track_singer);
-                        intent.putExtra("album", track_album);
-                        intent.putExtra("url", track_pic);
-                        intent.putExtra("lyrics", track_lyrics);
-                        intent.putExtra("artist_id",artist_id);
-                        intent.putExtra("album_id",album_id);
-                        startActivity(intent);
+
 
                     } catch (JSONException e) {
                     }
