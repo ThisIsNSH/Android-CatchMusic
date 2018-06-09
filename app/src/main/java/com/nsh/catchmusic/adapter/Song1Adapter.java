@@ -26,25 +26,25 @@ import java.util.List;
  * Created by ThisIsNSH on 6/6/2018.
  */
 
-public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> {
+public class Song1Adapter extends RecyclerView.Adapter<Song1Adapter.MyViewHolder> {
 
     List<Song> songList;
     Activity mContext;
 
-    public SongAdapter(List<Song> songList, Activity mContext) {
+    public Song1Adapter(List<Song> songList, Activity mContext) {
         this.songList = songList;
         this.mContext = mContext;
     }
 
     @NonNull
     @Override
-    public SongAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Song1Adapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.singer_layout, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SongAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Song1Adapter.MyViewHolder holder, int position) {
         Song song = songList.get(position);
         holder.name.setText(song.getName());
         holder.album.setText(song.getAlbum());
@@ -82,9 +82,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
 
     public class AAsyncTask extends AsyncTask<Void, Void, Element> {
         Song song;
-        SongAdapter.MyViewHolder holder;
+        Song1Adapter.MyViewHolder holder;
 
-        AAsyncTask (Song song,SongAdapter.MyViewHolder holder){
+        AAsyncTask (Song song,Song1Adapter.MyViewHolder holder){
         this.song = song;
         this.holder = holder;
         }
@@ -93,7 +93,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
             Element content = new Element("hello");
             try {
                 Document document = Jsoup.connect(song.getUrl()).get();
-                content = document.select(".banner-album-image-desktop").first();
+                content = document.select(".mxm-album-banner__coverart").first();
             } catch (IOException e) {
                 e.printStackTrace();
             }

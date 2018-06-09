@@ -42,9 +42,9 @@ public class ListenActivity extends AppCompatActivity {
         initUI();
 
         queue = Volley.newRequestQueue(this);
-        get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey="+getString(R.string.api_key)+"&s_track_rating=desc&s_artist_rating=desc";
+        get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey="+getString(R.string.api_key)+"&s_track_rating=desc&s_artist_rating=desc&page_size=1";
         get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey="+getString(R.string.api_key);
-        song = "Havana, ooh na-na (ay) Half of my heart is in Havana, ooh-na-na (ay, ay) He took me back to East Atlanta, na-na-na Oh, but my heart is in Havana (ay)";
+        song = "D D Down";
 
         listen.setOnClickListener(new View.OnClickListener() {
             @Override

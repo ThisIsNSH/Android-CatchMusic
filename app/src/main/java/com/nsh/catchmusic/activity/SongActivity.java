@@ -46,7 +46,7 @@ public class SongActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Element content) {
             System.out.println(content.select("img").first().absUrl("src"));
-            System.out.println(content.getElementsByTag("img"));
+
             super.onPostExecute(content);
         }
     }

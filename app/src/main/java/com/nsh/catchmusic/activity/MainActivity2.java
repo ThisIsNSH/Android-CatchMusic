@@ -18,7 +18,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.nsh.catchmusic.OnSwipeTouchListener;
 import com.nsh.catchmusic.R;
+import com.nsh.catchmusic.adapter.Song1Adapter;
 import com.nsh.catchmusic.adapter.SongAdapter;
 import com.nsh.catchmusic.model.Song;
 import com.squareup.picasso.Picasso;
@@ -47,12 +47,13 @@ public class MainActivity2 extends AppCompatActivity {
     TextView name, album, singer;
     ImageView imageView;
     FrameLayout button;
-    SongAdapter singerAdapter, albumAdapter;
+    Song1Adapter singerAdapter;
+    SongAdapter albumAdapter;
     List<Song> singerList, albumList;
     CardView card;
     String track_name, track_pic, track_artist, track_album, track_lyrics, get_album, get_artist;
     Long album_id, artist_id;
-    LinearLayout holder;
+    RelativeLayout holder;
     int check = 0;
 
     @Override
@@ -126,24 +127,27 @@ public class MainActivity2 extends AppCompatActivity {
         singer.setText(track_artist);
         Picasso.get().load(track_pic).into(imageView);
 
-        get_album = "http://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=" + album_id + "&page=1&page_size=5&apikey="+getString(R.string.api_key);
-        get_artist = "http://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id + "&s_release_date=desc&g_album_name=1&apikey="+getString(R.string.api_key)+"&page=1&page_size=5";
+        get_album = "http://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=" + album_id + "&page=1&page_size=5&apikey=" + getString(R.string.api_key);
+        get_artist = "http://api.musixmatch.com/ws/1.1/artist.albums.get?artist_id=" + artist_id + "&s_release_date=desc&g_album_name=1&apikey=" + getString(R.string.api_key) + "&page=1&page_size=5";
+
+        System.out.println(get_artist);
+        System.out.println(get_album);
 
         singerList = new ArrayList<>();
         albumList = new ArrayList<>();
 
-        singerAdapter = new SongAdapter(singerList,MainActivity2.this);
-        albumAdapter = new SongAdapter(albumList,MainActivity2.this);
+        singerAdapter = new Song1Adapter(singerList, MainActivity2.this);
+        albumAdapter = new SongAdapter(albumList, MainActivity2.this);
 
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        llm.setOrientation(LinearLayoutManager.HORIZONTAL);
         rec_singer.setLayoutManager(llm);
         rec_singer.setAdapter(singerAdapter);
         rec_singer.setItemAnimator(new DefaultItemAnimator());
         rec_singer.setFocusable(false);
 
         LinearLayoutManager llm1 = new LinearLayoutManager(getApplicationContext());
-        llm1.setOrientation(LinearLayoutManager.VERTICAL);
+        llm1.setOrientation(LinearLayoutManager.HORIZONTAL);
         rec_album.setLayoutManager(llm1);
         rec_album.setAdapter(albumAdapter);
         rec_album.setItemAnimator(new DefaultItemAnimator());
@@ -180,7 +184,7 @@ public class MainActivity2 extends AppCompatActivity {
                     JSONObject myResponse = response1.getJSONObject("message").getJSONObject("body");
                     JSONArray tsmresponse = (JSONArray) myResponse.get("album_list");
                     for (int i = 0; i < tsmresponse.length(); i++) {
-                        Song song = new Song(tsmresponse.getJSONObject(i).getJSONObject("album").getString("album_name"), tsmresponse.getJSONObject(i).getJSONObject("album").getString("album_coverart_100x100"), tsmresponse.getJSONObject(i).getJSONObject("album").getString("album_release_type"));
+                        Song song = new Song(tsmresponse.getJSONObject(i).getJSONObject("album").getString("album_name"), tsmresponse.getJSONObject(i).getJSONObject("album").getString("album_edit_url"), tsmresponse.getJSONObject(i).getJSONObject("album").getString("album_release_type"));
                         singerList.add(song);
                         singerAdapter.notifyDataSetChanged();
                     }
@@ -206,7 +210,7 @@ public class MainActivity2 extends AppCompatActivity {
                     JSONArray tsmresponse = (JSONArray) myResponse.get("track_list");
                     for (int i = 0; i < tsmresponse.length(); i++) {
                         System.out.println(tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"));
-                        Song song = new Song(tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"), tsmresponse.getJSONObject(i).getJSONObject("track").getString("album_coverart_100x100"), tsmresponse.getJSONObject(i).getJSONObject("track").getString("artist_name"));
+                        Song song = new Song(tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"), tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_share_url"), tsmresponse.getJSONObject(i).getJSONObject("track").getString("artist_name"));
                         albumList.add(song);
                         albumAdapter.notifyDataSetChanged();
                     }
