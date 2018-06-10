@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/card"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#fff"
@@ -20,34 +21,31 @@
 
             <ImageView
                 android:id="@+id/pic"
-                android:transitionName="@string/t1"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
-                android:src="#f3f3f3" />
+                android:src="#f3f3f3"
+                android:transitionName="@string/t1" />
 
             <TextView
                 android:id="@+id/name"
-                android:transitionName="@string/t2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/pic"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:minLines="2"
-                android:maxLines="2"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/psb"
+                android:maxLines="2"
+                android:minLines="2"
                 android:text="Song"
                 android:textColor="#000"
-                android:textSize="17dp" />
+                android:textSize="17dp"
+                android:transitionName="@string/t2" />
 
             <TextView
                 android:id="@+id/album"
-                android:minLines="2"
-                android:visibility="gone"
-                android:maxLines="2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"
@@ -55,9 +53,12 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:fontFamily="@font/ps"
+                android:maxLines="2"
+                android:minLines="2"
                 android:text="Album"
                 android:textColor="#000"
-                android:textSize="17dp" />
+                android:textSize="17dp"
+                android:visibility="gone" />
 
 
         </RelativeLayout>
@@ -65,14 +66,14 @@
 
     <FrameLayout
         android:id="@+id/play"
-        android:transitionName="@string/t5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="140dp"
-        android:elevation="10dp">
+        android:elevation="10dp"
+        android:transitionName="@string/t5"
+        android:visibility="gone">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"

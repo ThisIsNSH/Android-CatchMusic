@@ -67,11 +67,23 @@ public class HomeActivity extends AppCompatActivity {
     int check = 0;
     BlurImageView blurImageView;
 
+    public static void watchYoutubeVideo(Context context, String id) {
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://www.youtube.com/watch?v=" + id));
+        try {
+            context.startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            context.startActivity(webIntent);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         initUI();
+
         holder.setOnTouchListener(new OnSwipeTouchListener(HomeActivity.this) {
 
             public void onSwipeLeft() {
@@ -82,6 +94,32 @@ public class HomeActivity extends AppCompatActivity {
                     animation.setDuration(300);
                     animation.setInterpolator(new AccelerateDecelerateInterpolator());
                     animation.start();
+
+
+                    Animation animate1 = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.translate_right1);
+                    button.startAnimation(animate1);
+                    ObjectAnimator animation1 = ObjectAnimator.ofFloat(button, "translationX", 0.0f, 100f);
+                    animation1.setDuration(300);
+                    animation1.setInterpolator(new AccelerateDecelerateInterpolator());
+                    animation1.start();
+                    animate1.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                            button.setVisibility(View.INVISIBLE);
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            button.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+
                     check = 1;
                 }
             }
@@ -94,43 +132,57 @@ public class HomeActivity extends AppCompatActivity {
                     animation.setDuration(300);
                     animation.setInterpolator(new AccelerateDecelerateInterpolator());
                     animation.start();
+
+                    Animation animate1 = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.translate_left1);
+                    button.startAnimation(animate1);
+                    ObjectAnimator animation1 = ObjectAnimator.ofFloat(button, "translationX", 100f, 0f);
+                    animation1.setDuration(300);
+                    animation1.setInterpolator(new AccelerateDecelerateInterpolator());
+                    animation1.start();
+                    animate1.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            button.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+
                     check = 0;
                 }
             }
 
 
         });
-        card.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getVideo(track_name);
+                if (check == 1) {
+                    getVideo(track_name);
+                }
             }
         });
     }
 
-    public static void watchYoutubeVideo(Context context, String id){
-        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
-        Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("http://www.youtube.com/watch?v=" + id));
-        try {
-            context.startActivity(appIntent);
-        } catch (ActivityNotFoundException ex) {
-            context.startActivity(webIntent);
-        }
-    }
-
-    public void getVideo(String param){
-        param = param.replace(" ","%20");
-        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q="+param+"&type=video&key="+getString(R.string.google);
+    public void getVideo(String param) {
+        param = param.replace(" ", "%20");
+        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=" + param + "&type=video&key=" + getString(R.string.google);
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     String id = response.getJSONArray("items").getJSONObject(0).getJSONObject("id").getString("videoId");
-                    watchYoutubeVideo(HomeActivity.this,id);
-                }
-                catch (JSONException e){
+                    watchYoutubeVideo(HomeActivity.this, id);
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -157,7 +209,7 @@ public class HomeActivity extends AppCompatActivity {
 
         name.setText(track_name);
         album.setText(track_album);
-        singer.setText(track_artist+" | ");
+        singer.setText(track_artist + "   | ");
 
         new AAsyncTask().execute();
 
@@ -193,8 +245,8 @@ public class HomeActivity extends AppCompatActivity {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         blurImageView = findViewById(R.id.BlurImageView);
-        holder1 = findViewById(R.id.holder1);
         holder = findViewById(R.id.holder);
+        button = findViewById(R.id.play);
         rec_album = findViewById(R.id.rec_m_album);
         rec_singer = findViewById(R.id.rec_m_singer);
         name = findViewById(R.id.name);

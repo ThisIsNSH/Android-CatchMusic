@@ -64,9 +64,6 @@ public class ListenActivity extends AppCompatActivity {
     }
 
     public void initUI() {
-        wave = findViewById(R.id.wave);
-        wave1 = findViewById(R.id.wave1);
-        wave2 = findViewById(R.id.wave2);
         listen = findViewById(R.id.listen);
     }
 
