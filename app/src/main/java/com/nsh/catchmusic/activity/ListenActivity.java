@@ -41,10 +41,12 @@ public class ListenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listen);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
+            getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        }
+        setContentView(R.layout.activity_listen);
         initUI();
 
         queue = Volley.newRequestQueue(this);
@@ -65,17 +67,15 @@ public class ListenActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 edit = editText.getText().toString();
-                if (edit.equals("null"))
-                    song = "Sweet baby our sex has meaning Know this time you";
-                else
-                    song = edit;
+                song = edit;
             }
         });
-
 
         listen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (song==null)
+                    song = "Sweet baby our sex has meaning Know this time you";
                 getTrack(song);
             }
         });

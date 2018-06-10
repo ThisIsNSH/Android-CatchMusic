@@ -1,8 +1,10 @@
 package com.nsh.catchmusic.activity;
 
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -52,6 +54,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
+    ImageView again;
     RecyclerView rec_singer, rec_album;
     TextView name, album, singer;
     ImageView imageView;
@@ -170,6 +173,34 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+        again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, ListenActivity.class));
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+        builder.setTitle(R.string.app_name);
+        builder.setIcon(R.drawable.logo);
+        builder.setMessage("Do you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finishAffinity();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void getVideo(String param) {
@@ -243,7 +274,7 @@ public class HomeActivity extends AppCompatActivity {
     public void initUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
+        again = findViewById(R.id.again);
         blurImageView = findViewById(R.id.BlurImageView);
         holder = findViewById(R.id.holder);
         button = findViewById(R.id.play);
