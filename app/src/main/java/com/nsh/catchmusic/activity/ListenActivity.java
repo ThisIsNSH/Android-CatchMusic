@@ -17,7 +17,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.john.waveview.WaveView;
 import com.nsh.catchmusic.R;
 
 import org.json.JSONArray;
@@ -32,7 +31,6 @@ public class ListenActivity extends AppCompatActivity {
     CircleImageView listen;
     RequestQueue queue;
     EditText editText;
-    WaveView wave, wave1, wave2;
     String api_key, get_track, get_lyrics, get_track_new, get_lyrics_new, lyrics;
     long track_id, artist_id, album_id;
     String song, track_name, track_lyrics, track_album, track_singer, track_pic;

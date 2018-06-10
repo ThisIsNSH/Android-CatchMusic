@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -59,15 +58,15 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.MyViewHolder> 
         }
     }
 
-    @NonNull
+
     @Override
-    public SongAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SongAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.singer_layout, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SongAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(SongAdapter.MyViewHolder holder, int position) {
         final Song song = songList.get(position);
         holder.name.setText(song.getName());
         holder.album.setText(song.getAlbum());
