@@ -1,8 +1,6 @@
 package com.nsh.catchmusic.activity;
 
 import android.animation.ObjectAnimator;
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,9 +9,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -22,7 +17,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -31,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.jgabrielfreitas.core.BlurImageView;
 import com.nsh.catchmusic.OnSwipeTouchListener;
 import com.nsh.catchmusic.R;
 import com.nsh.catchmusic.adapter.Song1Adapter;
@@ -64,13 +59,13 @@ public class HomeActivity extends AppCompatActivity {
     RelativeLayout holder;
     LinearLayout holder1;
     int check = 0;
+    BlurImageView blurImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         initUI();
-
         card.setOnTouchListener(new OnSwipeTouchListener(HomeActivity.this) {
 
             public void onSwipeLeft() {
@@ -99,7 +94,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
         });
-
     }
 
 
@@ -148,6 +142,7 @@ public class HomeActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        blurImageView = findViewById(R.id.BlurImageView);
         holder1 = findViewById(R.id.holder1);
         holder = findViewById(R.id.holder);
         rec_album = findViewById(R.id.rec_m_album);
@@ -231,6 +226,7 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Element content) {
             Picasso.get().load(content.select("img").first().absUrl("src")).into(imageView);
+            Picasso.get().load(content.select("img").first().absUrl("src")).into(blurImageView);
             super.onPostExecute(content);
         }
     }

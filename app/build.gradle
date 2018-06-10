@@ -5,7 +5,7 @@ android {
     flavorDimensions "default"
     defaultConfig {
         applicationId "com.nsh.catchmusic"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 27
         versionCode 1
         multiDexEnabled true
@@ -54,6 +54,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:27.1.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
     compile 'org.jsoup:jsoup:1.11.3'
+    compile 'com.github.jgabrielfreitas:BlurImageView:1.0.1'
     compile 'com.github.john990:WaveView:v0.9'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.android.support:recyclerview-v7:27.1.1'

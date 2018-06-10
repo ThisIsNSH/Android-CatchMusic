@@ -20,6 +20,12 @@ import com.nsh.catchmusic.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -27,9 +33,9 @@ public class ListenActivity extends AppCompatActivity {
 
     CircleImageView listen;
     RequestQueue queue;
-    WaveView wave,wave1,wave2;
+    WaveView wave, wave1, wave2;
     String api_key, get_track, get_lyrics, get_track_new, get_lyrics_new, lyrics;
-    long track_id,artist_id,album_id;
+    long track_id, artist_id, album_id;
     String song, track_name, track_lyrics, track_album, track_singer, track_pic;
     JsonObjectRequest lyricsRequest;
 
@@ -43,14 +49,13 @@ public class ListenActivity extends AppCompatActivity {
         initUI();
 
         queue = Volley.newRequestQueue(this);
-        get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey="+getString(R.string.api_key)+"&s_track_rating=desc&s_artist_rating=desc&page_size=1";
-        get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey="+getString(R.string.api_key);
-        song = "Took you like a shot Thought that I could chase you with a cold evening";
+        get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey=" + getString(R.string.api_key) + "&s_track_rating=desc&s_artist_rating=desc";
+        get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=" + getString(R.string.api_key);
+        song = "Sweet baby our sex has meaning Know this time you";
 
         listen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 getTrack(song);
             }
         });
@@ -75,24 +80,22 @@ public class ListenActivity extends AppCompatActivity {
                 try {
                     JSONObject myResponse = response.getJSONObject("message").getJSONObject("body");
                     JSONArray tsmresponse = (JSONArray) myResponse.get("track_list");
-                    for (int i = 0; i < tsmresponse.length(); i++) {
-                        track_name = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_name"));
-                        track_id = (tsmresponse.getJSONObject(i).getJSONObject("track").getLong("track_id"));
-                        artist_id = (tsmresponse.getJSONObject(i).getJSONObject("track").getLong("artist_id"));
-                        album_id = (tsmresponse.getJSONObject(i).getJSONObject("track").getLong("album_id"));
-                        track_album = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("album_name"));
-                        track_singer = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("artist_name"));
-                        track_pic = (tsmresponse.getJSONObject(i).getJSONObject("track").getString("track_share_url"));
-                        Intent intent = new Intent(ListenActivity.this, HomeActivity.class);
-                        intent.putExtra("name", track_name);
-                        intent.putExtra("singer", track_singer);
-                        intent.putExtra("album", track_album);
-                        intent.putExtra("url", track_pic);
-                        intent.putExtra("lyrics", "null");
-                        intent.putExtra("artist_id",artist_id);
-                        intent.putExtra("album_id",album_id);
-                        startActivity(intent);
-                    }
+                        track_name = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("track_name"));
+                        track_id = (tsmresponse.getJSONObject(0).getJSONObject("track").getLong("track_id"));
+                        artist_id = (tsmresponse.getJSONObject(0).getJSONObject("track").getLong("artist_id"));
+                        album_id = (tsmresponse.getJSONObject(0).getJSONObject("track").getLong("album_id"));
+                        track_album = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("album_name"));
+                        track_singer = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("artist_name"));
+                        track_pic = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("track_share_url"));
+                    Intent intent = new Intent(ListenActivity.this, HomeActivity.class);
+                    intent.putExtra("name", track_name);
+                    intent.putExtra("singer", track_singer);
+                    intent.putExtra("album", track_album);
+                    intent.putExtra("url", track_pic);
+                    intent.putExtra("lyrics", "null");
+                    intent.putExtra("artist_id", artist_id);
+                    intent.putExtra("album_id", album_id);
+                    startActivity(intent);
                 } catch (JSONException e) {
                     return;
                 }

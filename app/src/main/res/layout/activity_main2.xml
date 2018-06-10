@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,6 +8,12 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.nsh.catchmusic.activity.HomeActivity">
+    <com.jgabrielfreitas.core.BlurImageView
+        android:id="@+id/BlurImageView"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:radius="24"/>
 
 
     <com.nsh.catchmusic.CustomScrollView
@@ -110,7 +116,6 @@
                 </android.support.v7.widget.CardView>
 
 
-
             </RelativeLayout>
 
             <LinearLayout
@@ -157,4 +162,4 @@
 
         </LinearLayout>
     </com.nsh.catchmusic.CustomScrollView>
-</LinearLayout>
+</RelativeLayout>
