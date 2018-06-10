@@ -71,8 +71,8 @@ public class HomeActivity extends AppCompatActivity {
             public void onSwipeLeft() {
                 if (check == 0) {
                     Animation animate = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.translate_left);
-                    holder.startAnimation(animate);
-                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationY", 0.0f, 10f);
+                    card.startAnimation(animate);
+                    ObjectAnimator animation = ObjectAnimator.ofFloat(card, "rotationY", 0.0f, 10f);
                     animation.setDuration(300);
                     animation.setInterpolator(new AccelerateDecelerateInterpolator());
                     animation.start();
@@ -83,8 +83,8 @@ public class HomeActivity extends AppCompatActivity {
             public void onSwipeRight() {
                 if (check == 1) {
                     Animation animate = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.translate_right);
-                    holder.startAnimation(animate);
-                    ObjectAnimator animation = ObjectAnimator.ofFloat(holder, "rotationY", 10f, 0f);
+                    card.startAnimation(animate);
+                    ObjectAnimator animation = ObjectAnimator.ofFloat(card, "rotationY", 10f, 0f);
                     animation.setDuration(300);
                     animation.setInterpolator(new AccelerateDecelerateInterpolator());
                     animation.start();
@@ -99,6 +99,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void prepareUI() {
         Bundle bundle = getIntent().getExtras();
+
         track_name = bundle.getString("name", "Not found");
         track_pic = bundle.getString("url", "Not found");
         track_album = bundle.getString("album", "Not found");
@@ -106,9 +107,11 @@ public class HomeActivity extends AppCompatActivity {
         track_lyrics = bundle.getString("lyrics", "Not found");
         album_id = bundle.getLong("album_id", 0);
         artist_id = bundle.getLong("artist_id", 0);
+
         name.setText(track_name);
         album.setText(track_album);
-        singer.setText(track_artist);
+        singer.setText(track_artist+" | ");
+
         new AAsyncTask().execute();
 
         get_album = "http://api.musixmatch.com/ws/1.1/album.tracks.get?album_id=" + album_id + "&page=1&page_size=5&apikey=" + getString(R.string.api_key);

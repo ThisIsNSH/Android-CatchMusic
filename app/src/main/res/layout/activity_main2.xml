@@ -8,111 +8,123 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.nsh.catchmusic.activity.HomeActivity">
-    <com.jgabrielfreitas.core.BlurImageView
-        android:id="@+id/BlurImageView"
-        android:scaleType="centerCrop"
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:radius="24"/>
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:elevation="10dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="16dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/again"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:padding="10dp"
+                android:src="@drawable/again" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:fontFamily="@font/psb"
+                android:text="song name"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:transitionName="@string/t2" />
+
+            <TextView
+                android:id="@+id/singer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:fontFamily="@font/ps"
+                android:text="singer"
+                android:textColor="#000"
+                android:textSize="17dp"
+                android:transitionName="@string/t3" />
+
+            <TextView
+                android:id="@+id/album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name"
+                android:layout_marginRight="8dp"
+                android:layout_toRightOf="@id/singer"
+                android:fontFamily="@font/ps"
+                android:text="album"
+                android:textColor="#000"
+                android:textSize="17dp"
+                android:transitionName="@string/t4" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
 
 
     <com.nsh.catchmusic.CustomScrollView
         android:id="@+id/scroll"
+android:layout_below="@id/toolbar"
+        android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="48dp"
-                android:fontFamily="@font/psb"
-                android:text="Your Song"
-                android:textColor="#000"
-                android:textSize="20sp" />
 
             <RelativeLayout
                 android:id="@+id/holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <com.jgabrielfreitas.core.BlurImageView
+                    android:id="@+id/BlurImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:foreground="#80000000"
+                    android:scaleType="centerCrop"
+                    app:radius="25" />
                 <android.support.v7.widget.CardView
                     android:id="@+id/card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="220dp"
+                    android:layout_height="220dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
                     android:transitionName="@string/t6"
                     app:cardBackgroundColor="#fff"
-                    app:cardCornerRadius="16dp"
+                    app:cardCornerRadius="8dp"
                     app:cardElevation="8dp"
                     app:cardPreventCornerOverlap="true"
                     app:cardUseCompatPadding="true">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
 
 
                         <ImageView
                             android:id="@+id/pic"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
+                            android:layout_height="match_parent"
                             android:background="@color/yellow1"
                             android:scaleType="centerCrop"
                             android:src="@color/yellow1"
                             android:transitionName="@string/t1" />
 
-                        <TextView
-                            android:id="@+id/name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/pic"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
-                            android:layout_marginTop="16dp"
-                            android:fontFamily="@font/psb"
-                            android:text=""
-                            android:textColor="#000"
-                            android:textSize="20dp"
-                            android:transitionName="@string/t2" />
 
-                        <TextView
-                            android:id="@+id/album"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/name"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
-                            android:fontFamily="@font/ps"
-                            android:text=""
-                            android:textColor="#000"
-                            android:textSize="20dp"
-                            android:transitionName="@string/t3" />
 
-                        <TextView
-                            android:id="@+id/singer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/album"
-                            android:layout_marginBottom="16dp"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
-                            android:fontFamily="@font/ps"
-                            android:text=""
-                            android:textColor="#000"
-                            android:textSize="20dp"
-                            android:transitionName="@string/t4" />
-
-                    </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
 
@@ -134,9 +146,9 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/psb"
-                    android:text="More By Singer"
+                    android:text="By Singer"
                     android:textColor="#000"
-                    android:textSize="20sp" />
+                    android:textSize="17sp" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rec_m_singer"
@@ -145,21 +157,26 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/psb"
-                android:text="More In Album"
-                android:textColor="#000"
-                android:textSize="20sp" />
+                android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rec_m_album"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/psb"
+                    android:text="In Album"
+                    android:textColor="#000"
+                    android:textSize="17sp" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rec_m_album"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
     </com.nsh.catchmusic.CustomScrollView>
 </RelativeLayout>
