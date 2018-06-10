@@ -72,35 +72,33 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
-
-
     <com.nsh.catchmusic.CustomScrollView
         android:id="@+id/scroll"
-android:layout_below="@id/toolbar"
-        android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
         android:scrollbars="none">
 
         <LinearLayout
+            android:paddingTop="16dp"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <RelativeLayout
                 android:id="@+id/holder"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp">
 
                 <com.jgabrielfreitas.core.BlurImageView
                     android:id="@+id/BlurImageView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="170dp"
                     android:foreground="#80000000"
                     android:scaleType="centerCrop"
                     app:radius="25" />
+
                 <android.support.v7.widget.CardView
                     android:id="@+id/card"
                     android:layout_width="220dp"
@@ -114,15 +112,14 @@ android:layout_below="@id/toolbar"
                     app:cardUseCompatPadding="true">
 
 
-                        <ImageView
-                            android:id="@+id/pic"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/yellow1"
-                            android:scaleType="centerCrop"
-                            android:src="@color/yellow1"
-                            android:transitionName="@string/t1" />
-
+                    <ImageView
+                        android:id="@+id/pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/yellow1"
+                        android:scaleType="centerCrop"
+                        android:src="@color/yellow1"
+                        android:transitionName="@string/t1" />
 
 
                 </android.support.v7.widget.CardView>
@@ -130,21 +127,26 @@ android:layout_below="@id/toolbar"
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/holder1"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@color/yellow1"
-                android:clickable="true"
-                android:elevation="8dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/holder1"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:background="@color/yellow1"
+                    android:clickable="true"
+                    android:elevation="8dp"
+                    android:orientation="vertical" />
 
                 <TextView
+                    android:id="@+id/t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"
                     android:layout_marginTop="16dp"
+                    android:elevation="9dp"
                     android:fontFamily="@font/psb"
                     android:text="By Singer"
                     android:textColor="#000"
@@ -152,10 +154,12 @@ android:layout_below="@id/toolbar"
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rec_m_singer"
-
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/t"
+                    android:elevation="9dp" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

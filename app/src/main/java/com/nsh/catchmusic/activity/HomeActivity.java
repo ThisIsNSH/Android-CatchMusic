@@ -1,6 +1,10 @@
 package com.nsh.catchmusic.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +13,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -21,6 +26,7 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -66,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         initUI();
-        card.setOnTouchListener(new OnSwipeTouchListener(HomeActivity.this) {
+        holder.setOnTouchListener(new OnSwipeTouchListener(HomeActivity.this) {
 
             public void onSwipeLeft() {
                 if (check == 0) {
@@ -94,8 +100,49 @@ public class HomeActivity extends AppCompatActivity {
 
 
         });
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getVideo(track_name);
+            }
+        });
     }
 
+    public static void watchYoutubeVideo(Context context, String id){
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://www.youtube.com/watch?v=" + id));
+        try {
+            context.startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            context.startActivity(webIntent);
+        }
+    }
+
+    public void getVideo(String param){
+        param = param.replace(" ","%20");
+        String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q="+param+"&type=video&key="+getString(R.string.google);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String id = response.getJSONArray("items").getJSONObject(0).getJSONObject("id").getString("videoId");
+                    watchYoutubeVideo(HomeActivity.this,id);
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(jsonObjectRequest);
+
+    }
 
     public void prepareUI() {
         Bundle bundle = getIntent().getExtras();
