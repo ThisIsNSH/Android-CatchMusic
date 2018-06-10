@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,19 +23,15 @@ import com.nsh.catchmusic.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ListenActivity extends AppCompatActivity {
 
+    String edit;
     CircleImageView listen;
     RequestQueue queue;
+    EditText editText;
     WaveView wave, wave1, wave2;
     String api_key, get_track, get_lyrics, get_track_new, get_lyrics_new, lyrics;
     long track_id, artist_id, album_id;
@@ -51,7 +50,28 @@ public class ListenActivity extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
         get_track = "http://api.musixmatch.com/ws/1.1/track.search?apikey=" + getString(R.string.api_key) + "&s_track_rating=desc&s_artist_rating=desc";
         get_lyrics = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=" + getString(R.string.api_key);
-        song = "Sweet baby our sex has meaning Know this time you";
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                edit = editText.getText().toString();
+                if (edit.equals("null"))
+                    song = "Sweet baby our sex has meaning Know this time you";
+                else
+                    song = edit;
+            }
+        });
+
 
         listen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +85,7 @@ public class ListenActivity extends AppCompatActivity {
 
     public void initUI() {
         listen = findViewById(R.id.listen);
+        editText = findViewById(R.id.edittext);
     }
 
     public void getTrack(String kk) {
@@ -77,13 +98,13 @@ public class ListenActivity extends AppCompatActivity {
                 try {
                     JSONObject myResponse = response.getJSONObject("message").getJSONObject("body");
                     JSONArray tsmresponse = (JSONArray) myResponse.get("track_list");
-                        track_name = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("track_name"));
-                        track_id = (tsmresponse.getJSONObject(0).getJSONObject("track").getLong("track_id"));
-                        artist_id = (tsmresponse.getJSONObject(0).getJSONObject("track").getLong("artist_id"));
-                        album_id = (tsmresponse.getJSONObject(0).getJSONObject("track").getLong("album_id"));
-                        track_album = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("album_name"));
-                        track_singer = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("artist_name"));
-                        track_pic = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("track_share_url"));
+                    track_name = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("track_name"));
+                    track_id = (tsmresponse.getJSONObject(0).getJSONObject("track").getLong("track_id"));
+                    artist_id = (tsmresponse.getJSONObject(0).getJSONObject("track").getLong("artist_id"));
+                    album_id = (tsmresponse.getJSONObject(0).getJSONObject("track").getLong("album_id"));
+                    track_album = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("album_name"));
+                    track_singer = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("artist_name"));
+                    track_pic = (tsmresponse.getJSONObject(0).getJSONObject("track").getString("track_share_url"));
                     Intent intent = new Intent(ListenActivity.this, HomeActivity.class);
                     intent.putExtra("name", track_name);
                     intent.putExtra("singer", track_singer);

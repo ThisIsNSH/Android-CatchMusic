@@ -5,6 +5,19 @@
     android:layout_height="match_parent"
     tools:context="com.nsh.catchmusic.activity.ListenActivity">
 
+    <EditText
+        android:id="@+id/edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:elevation="10dp"
+        android:layout_margin="8dp"
+        android:paddingLeft="8dp"
+        android:fontFamily="@font/ps"
+        android:hint="Enter Lyrics for test"
+        android:textColor="#fff"
+        android:textColorHint="#fff" />
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -35,112 +48,18 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/listen"
             android:layout_width="64dp"
-            android:padding="8dp"
             android:layout_height="64dp"
             android:layout_marginBottom="64dp"
+            android:padding="8dp"
             android:src="@drawable/mic" />
 
     </LinearLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
         android:foreground="@drawable/black_gradient"
+        android:scaleType="centerCrop"
         android:src="@drawable/splash" />
 
-
-    <!-- <com.john.waveview.WaveView
-         android:id="@+id/wave"
-         android:elevation="4dp"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         app:above_wave_color="#ffff00"
-         app:blow_wave_color="#000"
-         app:wave_length="large"
-         app:progress="5"
-         app:wave_height="large"
-         app:wave_hz="fast"/>
-     <com.john.waveview.WaveView
-         android:id="@+id/wave1"
-         android:elevation="4dp"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         app:above_wave_color="#ff00ff"
-         app:blow_wave_color="#000"
-         app:wave_length="middle"
-         app:progress="5"
-         app:wave_height="large"
-         app:wave_hz="fast"/>
-     <com.john.waveview.WaveView
-         android:id="@+id/wave2"
-         android:elevation="4dp"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         app:above_wave_color="#00ffff"
-         app:blow_wave_color="#000"
-         app:wave_length="little"
-         app:progress="5"
-         app:wave_height="large"
-         app:wave_hz="fast"/>
-     <com.john.waveview.WaveView
-         android:elevation="4dp"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         app:above_wave_color="#000"
-         app:blow_wave_color="#fff"
-         app:wave_length="little"
-         app:progress="4"
-         app:wave_height="large"
-         app:wave_hz="fast"/>
-     <com.john.waveview.WaveView
-         android:elevation="4dp"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         app:above_wave_color="#fff"
-         app:blow_wave_color="#fff"
-         app:wave_length="little"
-         app:progress="4"
-         app:wave_height="large"
-         app:wave_hz="fast"/>
-     <com.john.waveview.WaveView
-         android:elevation="4dp"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         app:above_wave_color="#000"
-         app:blow_wave_color="#fff"
-         app:wave_length="little"
-         app:progress="4"
-         app:wave_height="large"
-         app:wave_hz="fast"/>
-     <com.john.waveview.WaveView
-         android:elevation="4dp"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         app:above_wave_color="@color/yellow1"
-         app:blow_wave_color="@color/yellow2"
-         app:wave_length="little"
-         app:progress="4"
-         app:wave_height="large"
-         app:wave_hz="fast"/>
-     <com.john.waveview.WaveView
-         android:elevation="4dp"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         app:above_wave_color="#000"
-         app:blow_wave_color="#fff"
-         app:wave_length="little"
-         app:progress="4"
-         app:wave_height="large"
-         app:wave_hz="fast"/>
-     <com.john.waveview.WaveView
-         android:elevation="4dp"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         app:above_wave_color="#000"
-         app:blow_wave_color="#000"
-         app:wave_length="little"
-         app:progress="4"
-         app:wave_height="large"
-         app:wave_hz="fast"/>
- -->
 </RelativeLayout>
