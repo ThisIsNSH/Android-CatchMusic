@@ -17,4 +17,4 @@ Maybe you will like the UI. Swipe feature in the found song is also awesome *try
 ![alt text]( https://github.com/ThisIsNSH/CatchMusic/blob/master/app/src/common/cm3.png)
 
 ### What's needed?
-Speech to text doesn't work for now. I need someone to fix that. Contact me for that *@hadanis.singh@gmail.com*
+Speech to text doesn't work for now. I need someone to fix that. 
